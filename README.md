@@ -1,3 +1,8 @@
 # Weather Visualizer
 
-Under construction
+To do
+
+- Neumorphism UI
+- Add night/day background
+- Improve favicon
+- Improve background
