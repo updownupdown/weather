@@ -8,8 +8,8 @@
 # testing
 /coverage
 
-# production
-/build
+# production - enabling this to deploy in Plesk
+# /build
 
 # misc
 .DS_Store
