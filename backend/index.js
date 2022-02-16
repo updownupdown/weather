@@ -7,6 +7,9 @@ dotenv.config();
 const PORT = process.env.PORT || 3001;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+
 app.get("/location/:location", (req, res) => {
   const geocodingAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${req.params.location}&appid=${API_KEY}`;
 
@@ -31,6 +34,11 @@ app.get("/lat/:lat/lon/:lon", (req, res) => {
     .catch((error) => {
       console.log(error);
     });
+});
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../frontend/build", "index.html"));
 });
 
 app.listen(PORT, () => {

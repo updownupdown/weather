@@ -24,7 +24,6 @@ function App() {
   const [weatherData, setWeatherData] = useState<OneCallAPIProps>({});
 
   function geolocate(searchLocation: string) {
-    console.log("geolocate...");
     fetch(`/location/${searchLocation}`)
       .then((res) => res.json())
       .then((data) => {
