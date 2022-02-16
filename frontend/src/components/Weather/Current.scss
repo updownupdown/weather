@@ -1,0 +1,121 @@
+.current {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  & > div {
+    flex: 1;
+
+    &:not(:first-child) {
+      padding-top: 20px;
+      border-top: 1px solid var(--K200);
+    }
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .weather-icon {
+      display: block;
+      aspect-ratio: 1;
+      width: 200px;
+    }
+
+    .description {
+      margin-bottom: 8px;
+
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .location {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--K600);
+    }
+  }
+
+  &__temp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    &__temp {
+      font-size: 58px;
+      font-weight: 700;
+    }
+    &__feels-like {
+      font-size: 22px;
+      font-weight: 700;
+    }
+    &__min-max {
+      display: flex;
+
+      font-size: 18px;
+      line-height: 1.3;
+      color: var(--K600);
+    }
+  }
+
+  &__other {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__misc {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      p {
+        flex: 1;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+  }
+
+  &__times {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .rise-set {
+      display: flex;
+      gap: 10px;
+
+      svg {
+        display: block;
+        width: 38px;
+        height: 38px;
+      }
+
+      &--sun svg path {
+        fill: var(--sunrise);
+      }
+      &--moon svg path {
+        fill: var(--moonrise);
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+
+        span {
+          font-size: 16px;
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+}

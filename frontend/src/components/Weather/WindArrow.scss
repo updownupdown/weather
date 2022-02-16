@@ -1,0 +1,40 @@
+.wind-arrow {
+  $size: 60px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: $size;
+  gap: 10px;
+
+  transform-origin: center;
+
+  svg {
+    display: block;
+    width: $size / 2;
+    height: $size / 2;
+
+    path {
+      fill: var(--wind);
+    }
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--wind);
+  }
+
+  &--large {
+    width: 100px;
+
+    svg {
+      width: 60px;
+      height: 60px;
+    }
+    .wind-arrow__label {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+}

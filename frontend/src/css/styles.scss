@@ -1,0 +1,207 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700&display=swap");
+@import "./media.scss";
+
+$theme-colors: (
+  "black": #000000,
+  "white": #ffffff,
+  "B300": #0071b8,
+  "B400": #05639d,
+  "B500": #05598d,
+  "B600": #03436b,
+  "K900": #24292d,
+  "K800": #4e5256,
+  "K700": #696f74,
+  "K600": #83898e,
+  "K500": #9da3a8,
+  "K400": #b5bbc0,
+  "K300": #ced3d6,
+  "K200": #dde1e3,
+  "K150": #edeef0,
+  "K100": #f7f8f9,
+  "status-green": #3eab60,
+  "status-orange": #f19c2d,
+  "status-red": #d75453,
+  "status-blue": #42a8d5,
+  "temperature": #eb5949,
+  "feels-like": #f99d5b,
+  "snow": #728696,
+  "pop": #dbe5e7,
+  "rain": #4cb9f0,
+  // "wind": #9bb5c9,
+  "wind": #77c5b5,
+  // "min-max": #eb5949,
+  "graph-line": #eee,
+  "zero-line": #ccc,
+  "sunrise": #f19c2d,
+  "moon": #405156,
+  "moonlight": #dfe5e7,
+  "moonrise": #87a9cd,
+  "alert-background": #fdf6f6,
+  "icon-cloud": #535b61,
+  "icon-orange": #f19c2d,
+  "icon-rain": #4cb9f0,
+  "icon-snow": #a4c3da,
+);
+
+:root {
+  // Generate hex/rgb CSS vars for default/rgba usage, respectively
+  @function hexToRGB($hex) {
+    @return red($hex), green($hex), blue($hex);
+  }
+  @each $name, $color in $theme-colors {
+    --#{$name}: #{$color};
+    --#{$name}-rgb: #{hexToRGB($color)};
+  }
+
+  --font: "Red Hat Display", sans-serif;
+
+  --box-shadow-300: 1px 2px 10px rgba(0, 0, 0, 0.08);
+  --box-shadow-600: 1px 2px 10px rgba(0, 0, 0, 0.08),
+    6px 16px 30px rgba(0, 0, 0, 0.06);
+  --box-shadow-neu: -6px -6px 18px rgba(var(--white-rgb), 0.9),
+    6px 6px 18px rgba(var(--K300-rgb), 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;
+
+  background: var(--K100);
+
+  color: var(--K800);
+}
+
+body,
+button,
+input,
+select {
+  font-family: var(--font);
+}
+
+input[type="text"] {
+  padding: 0 12px;
+
+  font-size: 16px;
+  font-weight: 600;
+}
+
+// * {
+// text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+// text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.6),
+//   1px 1px 2px rgba(0, 0, 0, 0.1);
+// }
+
+button {
+  cursor: pointer;
+  margin: 0;
+  padding: 10px 14px;
+
+  border-radius: 6px;
+  border: unset;
+  background: var(--K200);
+
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--K800);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.layout {
+  $boxGap: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $boxGap;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100vh;
+  padding: 40px;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__bottom {
+    display: flex;
+    gap: $boxGap;
+    // align-items: center;
+    // justify-content: center;
+
+    &__left {
+      display: flex;
+      flex-direction: column;
+      gap: $boxGap;
+      width: 300px;
+    }
+    &__right {
+      display: flex;
+      flex-direction: column;
+      // flex: 1;
+      width: 100%;
+      max-width: 1000px;
+      gap: $boxGap;
+    }
+  }
+
+  &__search {
+    display: flex;
+    gap: 12px;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 30px;
+    gap: 30px;
+
+    border-radius: 8px;
+    background: var(--K100);
+    // border: 1px solid rgba(var(--white-rgb), 0.2);
+    border: 1px solid rgba(var(--K200-rgb), 0.5);
+    box-shadow: var(--box-shadow-neu);
+    box-shadow: 1px 2px 12px rgba(var(--K700-rgb), 0.08),
+      4px 8px 30px rgba(var(--K700-rgb), 0.08);
+
+    &--alerts {
+      padding: 24px 20px;
+
+      background: var(--alert-background);
+      border: 1px solid rgba(var(--status-red-rgb), 0.4);
+    }
+  }
+}
+
+@import "./blocks.scss";
+@import "./recharts.scss";
