@@ -8,9 +8,6 @@
     "start": "node backend/index.js",
     "build": "cd frontend && npm install && npm run build"
   },
-  "engines": {
-    "node": "16.13.0"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
