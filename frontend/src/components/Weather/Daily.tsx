@@ -97,7 +97,7 @@ export const Daily = ({ data }: Props) => {
 
             <XAxis hide dataKey="day" />
 
-            <ReferenceLine y={0} stroke="var(--zero-line)" />
+            <ReferenceLine y={0} stroke="var(--zero-line)" strokeWidth={2} />
             <Line
               dataKey="temperature"
               name="Temperature"

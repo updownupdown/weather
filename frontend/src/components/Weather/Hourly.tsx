@@ -145,9 +145,9 @@ export const Hourly = ({ data }: Props) => {
               formatter={temperatureToolipFormatter}
             />
 
-            <CartesianGrid stroke="var(--graph-line)" vertical={false} />
+            {/* <CartesianGrid stroke="var(--graph-line)" vertical={false} /> */}
 
-            <ReferenceLine y={0} stroke="var(--zero-line)" />
+            <ReferenceLine y={0} stroke="var(--zero-line)" strokeWidth={2} />
 
             <XAxis hide dataKey="hour" />
 

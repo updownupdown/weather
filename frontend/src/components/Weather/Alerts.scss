@@ -1,11 +1,17 @@
 .alert {
   &__event {
-    margin-bottom: 10px;
-
     font-size: 24px;
     font-weight: 700;
     text-transform: capitalize;
     color: var(--status-red);
+  }
+
+  &__sender-timing {
+    margin-bottom: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--K500);
   }
 
   &__description {
@@ -45,11 +51,5 @@
         display: none;
       }
     }
-  }
-
-  &__sender-timing {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--K500);
   }
 }

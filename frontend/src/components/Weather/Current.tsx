@@ -36,12 +36,13 @@ export const Current = ({ data, city }: Props) => {
   return (
     <div className="current">
       <div className="current__description">
-        <WeatherIcon code={currentData.weather[0].icon} />
+        <span className="location">{locationName}</span>
 
         <span className="description">
           {currentData.weather[0].description}
         </span>
-        <span className="location">{locationName}</span>
+
+        <WeatherIcon code={currentData.weather[0].icon} />
       </div>
 
       <div className="current__temp">
@@ -52,22 +53,18 @@ export const Current = ({ data, city }: Props) => {
         <div className="current__temp__feels-like">
           Feels like: {currentData.feels_like.toFixed()}&deg;C
         </div>
-
-        <div className="current__temp__min-max">
-          Min/max: {todayData.temp.min.toFixed()}&deg;C /{" "}
-          {todayData.temp.max.toFixed()}&deg;C
-        </div>
       </div>
 
       <div className="current__other">
         <div className="current__other__misc">
           <p>
-            Cloud cover: {currentData.clouds}%
+            Min: {todayData.temp.min.toFixed()}&deg;C
+            <br />
+            Max: {todayData.temp.max.toFixed()}&deg;C
+            <br />
+            Clouds: {currentData.clouds}%
             <br />
             Humidity: {currentData.humidity.toFixed()}%
-            <br />
-            Wind: {currentData.wind_speed.toFixed()} km/h{" "}
-            {degToCompass(currentData.wind_deg)}
           </p>
 
           <WindArrow

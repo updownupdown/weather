@@ -53,48 +53,13 @@ function App() {
 
   // on init
   useEffect(() => {
-    console.log("init...");
-
     const savedCities = getSavedCities();
     console.log(savedCities);
     if (savedCities.length !== 0) {
-      // const defaultOptions = convertCitiesToOptions(savedCities);
       setFetchedCities(savedCities);
       setSelectedCity(savedCities[0]);
     }
-    // if (savedLocation !== "") {
-    //   geolocateFromSearch(savedLocation);
-    // }
   }, []);
-
-  const LeftPanels = useMemo(() => {
-    return (
-      <>
-        <div className="box box--current">
-          <Current city={selectedCity} data={weatherData} />
-        </div>
-
-        {weatherData.alerts && (
-          <div className="box box--alerts">
-            <Alerts data={weatherData} />
-          </div>
-        )}
-      </>
-    );
-  }, [weatherData, selectedCity]);
-
-  const RightPanels = useMemo(() => {
-    return (
-      <>
-        <div className="box box--hourly">
-          <Hourly data={weatherData} />
-        </div>
-        <div className="box box--daily">
-          <Daily data={weatherData} />
-        </div>
-      </>
-    );
-  }, [weatherData, selectedCity]);
 
   // fetch cities suggestions
   const _loadSuggestions = (query: any, callback: any) => {
@@ -149,32 +114,63 @@ function App() {
     }
   }
 
-  return (
-    <div className="layout">
-      <div className="layout__left">
-        <div className="box box--search">
-          <AsyncSelect
-            className="loc-search"
-            defaultOptions={generateDefaultOptions()}
-            onChange={selectCity}
-            loadOptions={loadSuggestions}
-            placeholder="Search city..."
-          />
-
-          <button
-            className="button button--icon"
-            onClick={() => {
-              geolocateFromBrowser();
-            }}
-          >
-            <Geolocate />
-          </button>
+  const LeftPanels = useMemo(() => {
+    return (
+      <>
+        <div className="box box--current">
+          <Current city={selectedCity} data={weatherData} />
         </div>
 
-        {LeftPanels}
-      </div>
+        {weatherData.alerts && (
+          <div className="box box--alerts">
+            <Alerts data={weatherData} />
+          </div>
+        )}
+      </>
+    );
+  }, [weatherData, selectedCity]);
 
-      <div className="layout__right">{RightPanels}</div>
+  const RightPanels = useMemo(() => {
+    return (
+      <>
+        <div className="box box--hourly">
+          <Hourly data={weatherData} />
+        </div>
+        <div className="box box--daily">
+          <Daily data={weatherData} />
+        </div>
+      </>
+    );
+  }, [weatherData, selectedCity]);
+
+  return (
+    <div className="layout-wrap">
+      <div className="layout">
+        <div className="layout__left">
+          <div className="box box--search">
+            <AsyncSelect
+              className="loc-search"
+              defaultOptions={generateDefaultOptions()}
+              onChange={selectCity}
+              loadOptions={loadSuggestions}
+              placeholder="Search city..."
+            />
+
+            <button
+              className="button button--icon"
+              onClick={() => {
+                geolocateFromBrowser();
+              }}
+            >
+              <Geolocate />
+            </button>
+          </div>
+
+          {LeftPanels}
+        </div>
+
+        <div className="layout__right">{RightPanels}</div>
+      </div>
     </div>
   );
 }

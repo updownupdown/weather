@@ -23,6 +23,11 @@ export const Alerts = ({ data }: Props) => {
         return (
           <div key={alert.event} className="alert">
             <h3 className="alert__event">{alert.event} Warning</h3>
+            <h5 className="alert__sender-timing">
+              {alert.sender_name}
+              <br />
+              {dtToDate(alert.start, "alert")} to {dtToDate(alert.end, "alert")}
+            </h5>
             <p
               className={clsx(
                 "alert__description",
@@ -34,11 +39,6 @@ export const Alerts = ({ data }: Props) => {
             >
               {alert.description}
             </p>
-            <h5 className="alert__sender-timing">
-              {alert.sender_name}
-              <br />
-              {dtToDate(alert.start, "alert")} to {dtToDate(alert.end, "alert")}
-            </h5>
           </div>
         );
       })}

@@ -27,10 +27,8 @@ $theme-colors: (
   "snow": #728696,
   "pop": #dbe5e7,
   "rain": #4cb9f0,
-  // "wind": #9bb5c9,
   "wind": #77c5b5,
-  // "min-max": #eb5949,
-  "graph-line": #eee,
+  // "graph-line": #dadada,
   "zero-line": #ccc,
   "sunrise": #f19c2d,
   "moon": #405156,
@@ -72,10 +70,10 @@ $theme-colors: (
 
 body {
   position: relative;
-  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 
   line-height: 1;
 
@@ -97,12 +95,6 @@ input[type="text"] {
   font-size: 16px;
   font-weight: 600;
 }
-
-// * {
-// text-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
-// text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.6),
-//   1px 1px 2px rgba(0, 0, 0, 0.1);
-// }
 
 button {
   cursor: pointer;
