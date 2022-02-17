@@ -1,104 +1,180 @@
 import { useMemo } from "react";
 import { useState, useEffect } from "react";
-import { cachedData } from "./cachedData";
+import { Geolocate } from "./components/Icons/Geolocate";
 import { Alerts } from "./components/Weather/Alerts";
 import { Current } from "./components/Weather/Current";
 import { Daily } from "./components/Weather/Daily";
 import { Hourly } from "./components/Weather/Hourly";
-import { OneCallAPIProps } from "./components/Weather/OpenWeatherMap";
-
-interface LatLonProps {
-  lat?: number;
-  lon?: number;
-}
+import {
+  CitiesOption,
+  LocationResultsProps,
+  OneCallAPIProps,
+} from "./components/Weather/OpenWeatherMap";
+import { formatCityName } from "./utils/utils";
+import AsyncSelect from "react-select/async";
+const debounce = require("lodash/debounce");
 
 function App() {
-  const savedLocation = localStorage.getItem("location") ?? "";
-
-  const [inputValue, setInputValue] = useState("");
-  const [location, setLocation] = useState("");
-  const [latLon, setLatLon] = useState<LatLonProps>({
-    lat: undefined,
-    lon: undefined,
-  });
+  const citiesStorageKey = "citiesList";
+  const [fetchedCities, setFetchedCities] = useState<
+    LocationResultsProps[] | undefined
+  >(undefined);
+  const [selectedCity, setSelectedCity] = useState<
+    LocationResultsProps | undefined
+  >(undefined);
   const [weatherData, setWeatherData] = useState<OneCallAPIProps>({});
 
-  function geolocate(searchLocation: string) {
-    fetch(`/location/${searchLocation}`)
-      .then((res) => res.json())
-      .then((data) => {
-        const city = data[0];
-        const cityName = `${city.name}, ${city.state}, ${city.country}`;
-        setLatLon({ lat: city.lat, lon: city.lon });
-        setLocation(cityName);
-        setInputValue(cityName);
-        localStorage.setItem("location", cityName);
-      });
+  // geolocate - browser lat/lon
+  function geolocateFromBrowser() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      if (lat && lon) {
+        fetch(`/reverse-geocode/lat/${lat}/lon/${lon}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setFetchedCities(data);
+          });
+      }
+    });
   }
 
+  // fetch weather data when city is selected
   useEffect(() => {
-    if (savedLocation !== "") geolocate(savedLocation);
-  }, []);
+    if (selectedCity === undefined) return;
 
-  useEffect(() => {
-    if (latLon.lat === undefined || latLon.lon === undefined) return;
-
-    fetch(`/lat/${latLon.lat}/lon/${latLon.lon}`)
+    fetch(`/weather/lat/${selectedCity.lat}/lon/${selectedCity.lon}`)
       .then((res) => res.json())
       .then((data) => {
         setWeatherData(data);
       });
-  }, [latLon]);
+  }, [selectedCity]);
+
+  // on init
+  useEffect(() => {
+    console.log("init...");
+
+    const savedCities = getSavedCities();
+    console.log(savedCities);
+    if (savedCities.length !== 0) {
+      // const defaultOptions = convertCitiesToOptions(savedCities);
+      setFetchedCities(savedCities);
+      setSelectedCity(savedCities[0]);
+    }
+    // if (savedLocation !== "") {
+    //   geolocateFromSearch(savedLocation);
+    // }
+  }, []);
 
   const LeftPanels = useMemo(() => {
     return (
       <>
-        <Current location={location} data={weatherData} />
-        {weatherData.alerts && <Alerts data={weatherData} />}
+        <div className="box box--current">
+          <Current city={selectedCity} data={weatherData} />
+        </div>
+
+        {weatherData.alerts && (
+          <div className="box box--alerts">
+            <Alerts data={weatherData} />
+          </div>
+        )}
       </>
     );
-  }, [weatherData, location]);
+  }, [weatherData, selectedCity]);
 
   const RightPanels = useMemo(() => {
     return (
       <>
-        <Hourly data={weatherData} />
-        <Daily data={weatherData} />
+        <div className="box box--hourly">
+          <Hourly data={weatherData} />
+        </div>
+        <div className="box box--daily">
+          <Daily data={weatherData} />
+        </div>
       </>
     );
-  }, [weatherData, location]);
+  }, [weatherData, selectedCity]);
+
+  // fetch cities suggestions
+  const _loadSuggestions = (query: any, callback: any) => {
+    fetch(`/geocode/location/${query}`)
+      .then((res) => res.json())
+      .then((cities) => {
+        setFetchedCities(cities);
+        callback(convertCitiesToOptions(cities));
+      });
+  };
+
+  const loadSuggestions = debounce(_loadSuggestions, 1000);
+
+  function convertCitiesToOptions(cities: LocationResultsProps[]) {
+    const citiesOptions: CitiesOption[] = [];
+
+    cities.forEach((city: LocationResultsProps, index: number) => {
+      if (city)
+        citiesOptions.push({ value: index, label: formatCityName(city) });
+    });
+
+    return citiesOptions;
+  }
+
+  function getSavedCities() {
+    const savedCities = localStorage.getItem(citiesStorageKey);
+    return savedCities ? JSON.parse(savedCities) : [];
+  }
+
+  // select city
+  const selectCity = (e: any) => {
+    if (e !== null && fetchedCities !== undefined) {
+      const newCity = fetchedCities[e.value];
+
+      setSelectedCity(newCity);
+
+      let citiesToStore = getSavedCities();
+      citiesToStore.unshift(newCity);
+      citiesToStore = citiesToStore.slice(0, 5);
+
+      localStorage.setItem(citiesStorageKey, JSON.stringify(citiesToStore));
+    }
+  };
+
+  function generateDefaultOptions() {
+    const savedCities = getSavedCities();
+
+    if (savedCities.length > 0) {
+      return convertCitiesToOptions(savedCities);
+    } else {
+      return [];
+    }
+  }
 
   return (
     <div className="layout">
-      <div className="layout__top">
-        <div className="layout__search">
-          <input
-            type="text"
-            className="form-control"
-            onChange={(e) => {
-              setInputValue(e.target.value);
-            }}
-            onKeyPress={(event) => {
-              if (event.key === "Enter") {
-                geolocate(inputValue);
-              }
-            }}
-            value={inputValue}
+      <div className="layout__left">
+        <div className="box box--search">
+          <AsyncSelect
+            className="loc-search"
+            defaultOptions={generateDefaultOptions()}
+            onChange={selectCity}
+            loadOptions={loadSuggestions}
+            placeholder="Search city..."
           />
+
           <button
+            className="button button--icon"
             onClick={() => {
-              geolocate(inputValue);
+              geolocateFromBrowser();
             }}
           >
-            Search
+            <Geolocate />
           </button>
         </div>
+
+        {LeftPanels}
       </div>
 
-      <div className="layout__bottom">
-        <div className="layout__bottom__left">{LeftPanels}</div>
-        <div className="layout__bottom__right">{RightPanels}</div>
-      </div>
+      <div className="layout__right">{RightPanels}</div>
     </div>
   );
 }

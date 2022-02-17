@@ -3,6 +3,7 @@
 To do
 
 - Neumorphism UI
-- Add night/day background
+- Fix/improve night/day background
 - Improve favicon
 - Improve background
+- Only store unique cities in local storage

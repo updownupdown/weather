@@ -11,8 +11,8 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../frontend/build")));
 
-app.get("/location/:location", (req, res) => {
-  const geocodingAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${req.params.location}&appid=${API_KEY}`;
+app.get("/geocode/location/:location", (req, res) => {
+  const geocodingAPIUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${req.params.location}&limit=5&appid=${API_KEY}`;
 
   axios
     .get(geocodingAPIUrl)
@@ -24,7 +24,20 @@ app.get("/location/:location", (req, res) => {
     });
 });
 
-app.get("/lat/:lat/lon/:lon", (req, res) => {
+app.get("/reverse-geocode/lat/:lat/lon/:lon", (req, res) => {
+  const geocodingAPIUrl = `https://api.openweathermap.org/geo/1.0/reverse?lat=${req.params.lat}&lon=${req.params.lon}&limit=5&appid=${API_KEY}`;
+
+  axios
+    .get(geocodingAPIUrl)
+    .then((response) => {
+      res.json(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
+app.get("/weather/lat/:lat/lon/:lon", (req, res) => {
   const oneCallAPIUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${req.params.lat}&lon=${req.params.lon}&units=metric&exclude=minutely&appid=${API_KEY}`;
 
   axios

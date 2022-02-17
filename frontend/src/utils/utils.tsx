@@ -1,4 +1,5 @@
 import React from "react";
+import { LocationResultsProps } from "../components/Weather/OpenWeatherMap";
 
 export function isObjectEmpty(empty: any) {
   return Object.keys(empty).length === 0 && empty.constructor === Object;
@@ -104,4 +105,8 @@ export function degToCompass(angle: number) {
     "NNW",
   ];
   return arr[val % 16];
+}
+
+export function formatCityName(city: LocationResultsProps) {
+  return `${city.name}, ${city.state && city.state + ", "}${city.country}`;
 }

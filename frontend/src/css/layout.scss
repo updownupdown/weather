@@ -1,0 +1,102 @@
+// ===== Layout ===== //
+.layout {
+  $boxGap: 20px;
+
+  display: flex;
+  gap: $boxGap;
+  width: 100%;
+  // max-width: 1400px;
+  min-height: 100vh;
+  padding: 40px;
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: $boxGap;
+    width: 300px;
+  }
+  &__right {
+    display: flex;
+    flex-direction: column;
+    gap: $boxGap;
+  }
+}
+
+// ===== Box ===== //
+.box {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 30px;
+
+  border-radius: 8px;
+  background: var(--K100);
+  border: 1px solid rgba(var(--K200-rgb), 0.5);
+  box-shadow: var(--box-shadow-neu);
+  box-shadow: 1px 2px 12px rgba(var(--K700-rgb), 0.08),
+    4px 8px 30px rgba(var(--K700-rgb), 0.08);
+
+  &--alerts {
+    padding: 24px 20px;
+
+    background: var(--alert-background);
+    border: 1px solid rgba(var(--status-red-rgb), 0.4);
+  }
+
+  &--search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+
+    .loc-search {
+      flex: 1;
+    }
+  }
+}
+
+// ===== Blocks ===== //
+.blocks {
+  display: flex;
+  width: 100%;
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 4px;
+
+    .wind-speed {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--wind);
+    }
+
+    &--night {
+      background: rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  &--small .block {
+    .title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .weather-icon {
+      width: 50px;
+    }
+  }
+  &--large .block {
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .weather-icon {
+      width: 70px;
+    }
+  }
+}

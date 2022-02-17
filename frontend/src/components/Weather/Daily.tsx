@@ -83,7 +83,7 @@ export const Daily = ({ data }: Props) => {
   };
 
   return (
-    <div className="box box--daily">
+    <>
       <div className="blocks blocks--title blocks--large">{titleBlocks()}</div>
 
       <div className="graph-container">
@@ -202,6 +202,6 @@ export const Daily = ({ data }: Props) => {
 
       <div className="blocks blocks--large">{windBlocks()}</div>
       <div className="blocks blocks--large">{moonBlocks()}</div>
-    </div>
+    </>
   );
 };

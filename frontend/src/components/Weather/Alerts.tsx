@@ -18,7 +18,7 @@ export const Alerts = ({ data }: Props) => {
   const alertData = data.alerts;
 
   return (
-    <div className="box box--alerts">
+    <>
       {alertData.map((alert: AlertProps) => {
         return (
           <div key={alert.event} className="alert">
@@ -42,6 +42,6 @@ export const Alerts = ({ data }: Props) => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };

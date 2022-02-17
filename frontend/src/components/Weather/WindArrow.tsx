@@ -13,17 +13,19 @@ interface Props {
 
 export const WindArrow = ({ deg, speed, gust, large }: Props) => {
   const lowWinds = 0;
-  const highWinds = 60;
-  const scaleFactor = (mpsTokph(speed) - lowWinds) / highWinds;
+  const highWinds = 40;
+  const speedInKmh = mpsTokph(speed);
+  const gustInKmh = gust ? mpsTokph(gust) : undefined;
+  const scaleFactor = (speedInKmh - lowWinds) / highWinds;
 
   const min = 0.5;
   const max = 1.5;
   const clampedScaleFactor = Math.min(Math.max(scaleFactor, min), max);
 
   const tooltipText = () => {
-    let text = speed.toFixed() + " km/h";
+    let text = speedInKmh.toFixed() + " km/h";
 
-    if (gust) text += "\n" + gust.toFixed() + " km/h gusts";
+    if (gustInKmh) text += "\n" + gustInKmh.toFixed() + " km/h gusts";
 
     return text;
   };
@@ -34,9 +36,11 @@ export const WindArrow = ({ deg, speed, gust, large }: Props) => {
       title={tooltipText()}
     >
       <ArrowWind
-        style={{ transform: `rotate(${deg}deg) scale(${clampedScaleFactor})` }}
+        style={{
+          transform: `rotate(${deg}deg) scale(${clampedScaleFactor})`,
+        }}
       />
-      <span className="wind-arrow__label">{`${speed.toFixed()} km/h`}</span>
+      <span className="wind-arrow__label">{`${speedInKmh.toFixed()} km/h`}</span>
     </div>
   );
 };

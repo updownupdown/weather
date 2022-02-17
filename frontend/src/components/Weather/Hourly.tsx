@@ -131,7 +131,7 @@ export const Hourly = ({ data }: Props) => {
   };
 
   return (
-    <div className="box box--hourly">
+    <>
       {dayNightIntervals()}
 
       <div className="blocks blocks--small">{titleBlocks()}</div>
@@ -228,6 +228,6 @@ export const Hourly = ({ data }: Props) => {
       </div>
 
       <div className="blocks blocks--small">{windBlocks()}</div>
-    </div>
+    </>
   );
 };

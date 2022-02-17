@@ -1,5 +1,19 @@
 import React from "react";
 
+export interface CitiesOption {
+  value: number;
+  label: string;
+}
+
+export interface LocationResultsProps {
+  name: string;
+  local_names: any;
+  lat: number;
+  lon: number;
+  state?: string;
+  country: string;
+}
+
 export interface WeatherProps {
   id: number;
   main: string;
@@ -23,8 +37,8 @@ export interface DailyProps {
   moonset: number;
   pop: number;
   pressure: number;
-  rain: number;
-  snow: number;
+  rain?: number;
+  snow?: number;
   sunrise: number;
   sunset: number;
   temp: {
