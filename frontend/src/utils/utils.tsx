@@ -1,5 +1,5 @@
 import React from "react";
-import { LocationResultsProps } from "../components/Weather/OpenWeatherMap";
+import { LocationResultsProps } from "./OpenWeatherMap";
 
 export function isObjectEmpty(empty: any) {
   return Object.keys(empty).length === 0 && empty.constructor === Object;

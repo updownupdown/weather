@@ -18,11 +18,11 @@ import {
   rainToolipFormatter,
   temperatureToolipFormatter,
 } from "../../utils/utils";
-import { WindArrow } from "./WindArrow";
+import { WindArrow } from "../Weather/WindArrow";
 import { MoonPhase } from "../MoonPhase/MoonPhase";
-import "./Daily.scss";
-import { DailyProps, OneCallAPIProps } from "./OpenWeatherMap";
+import { DailyProps, OneCallAPIProps } from "../../utils/OpenWeatherMap";
 import { WeatherIcon } from "../Icons/WeatherIcons";
+import "./Daily.scss";
 
 interface Props {
   data: OneCallAPIProps;
@@ -89,7 +89,7 @@ export const Daily = ({ data }: Props) => {
   };
 
   return (
-    <>
+    <div className="box box--daily">
       <div className="blocks blocks--title blocks--large">{titleBlocks()}</div>
 
       <div className="graph-container">
@@ -208,6 +208,6 @@ export const Daily = ({ data }: Props) => {
 
       <div className="blocks blocks--large">{windBlocks()}</div>
       <div className="blocks blocks--large">{moonBlocks()}</div>
-    </>
+    </div>
   );
 };

@@ -1,54 +1,34 @@
-import React, { useState } from "react";
-import { dtToDate, isObjectEmpty } from "../../utils/utils";
-import { AlertProps, OneCallAPIProps } from "./OpenWeatherMap";
+import React from "react";
+import { dtToDate } from "../../utils/utils";
+import { AlertProps } from "../../utils/OpenWeatherMap";
+import { Warning } from "../Icons/Warning";
 import "./Alerts.scss";
-import clsx from "clsx";
 
 interface Props {
-  data: OneCallAPIProps;
+  alerts: AlertProps[];
+  timezone: string | undefined;
 }
 
-export const Alerts = ({ data }: Props) => {
-  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
-
-  if (
-    data === undefined ||
-    data.timezone === undefined ||
-    isObjectEmpty(data) ||
-    data.alerts === undefined
-  ) {
-    return <div>Loading...</div>;
-  }
-
-  const alertData = data.alerts;
-  const timezone = data.timezone;
-
+export const Alerts = ({ alerts, timezone }: Props) => {
   return (
-    <>
-      {alertData.map((alert: AlertProps) => {
+    <div className="alerts">
+      {alerts.map((alert: AlertProps) => {
+        const timing = `${dtToDate(
+          alert.start,
+          "alert",
+          timezone
+        )} to ${dtToDate(alert.end, "alert", timezone)}`;
+
+        const tooltip =
+          alert.sender_name + "\n" + timing + "\n" + alert.description;
+
         return (
-          <div key={alert.event} className="alert">
-            <h3 className="alert__event">{alert.event} Warning</h3>
-            <h5 className="alert__sender-timing">
-              {alert.sender_name}
-              <br />
-              {dtToDate(alert.start, "alert", timezone)} to{" "}
-              {dtToDate(alert.end, "alert", timezone)}
-            </h5>
-            <p
-              className={clsx(
-                "alert__description",
-                isDescriptionOpen && "alert__description--expanded"
-              )}
-              onClick={() => {
-                setIsDescriptionOpen(!isDescriptionOpen);
-              }}
-            >
-              {alert.description}
-            </p>
+          <div key={alert.event} className="alert" title={tooltip}>
+            <Warning />
+            <span className="alert__title">{alert.event}</span>
           </div>
         );
       })}
-    </>
+    </div>
   );
 };

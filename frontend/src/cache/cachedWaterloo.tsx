@@ -1464,5 +1464,14 @@ export const cachedWaterloo = {
         "\nA period of very cold wind chills is expected.\n\nHazard: \nWind chill values near minus 30. \n\nWhen:\nTonight into Monday morning. \n\nImpacts:\n\n###\n\nRisks are greater for young children, older adults, people with chronic illnesses, people working or exercising outdoors, and those without proper shelter.\n\nWatch for cold related symptoms: shortness of breath, chest pain, muscle pain and weakness, numbness and colour change in fingers and toes.\n\nPlease continue to monitor alerts and forecasts issued by Environment Canada. To report severe weather, send an email to ONstorm@ec.gc.ca or tweet reports using #ONStorm.\n",
       tags: ["Extreme temperature value"],
     },
+    {
+      sender_name: "Environment Canada",
+      event: "Test",
+      start: 1644787898,
+      end: 1644845498,
+      description:
+        "\nA period of very cold wind chills is expected.\n\nHazard: \nWind chill values near minus 30. \n\nWhen:\nTonight into Monday morning. \n\nImpacts:\n\n###\n\nRisks are greater for young children, older adults, people with chronic illnesses, people working or exercising outdoors, and those without proper shelter.\n\nWatch for cold related symptoms: shortness of breath, chest pain, muscle pain and weakness, numbness and colour change in fingers and toes.\n\nPlease continue to monitor alerts and forecasts issued by Environment Canada. To report severe weather, send an email to ONstorm@ec.gc.ca or tweet reports using #ONStorm.\n",
+      tags: ["Extreme temperature value"],
+    },
   ],
 };

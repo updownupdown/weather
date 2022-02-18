@@ -5,7 +5,6 @@ import {
   LabelList,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ComposedChart,
   ResponsiveContainer,
@@ -19,16 +18,12 @@ import {
   formatPOPLabel,
   isObjectEmpty,
 } from "../../utils/utils";
-import { HourlyProps, OneCallAPIProps } from "./OpenWeatherMap";
-import { WindArrow } from "./WindArrow";
+import { HourlyProps, OneCallAPIProps } from "../../utils/OpenWeatherMap";
+import { WindArrow } from "../Weather/WindArrow";
 import { WeatherIcon } from "../Icons/WeatherIcons";
-import "./Hourly.scss";
-import { Sunrise } from "../Icons/Sunrise";
-import { Sunset } from "../Icons/Sunset";
-import { Moonrise } from "../Icons/Moonrise";
-import { Moonset } from "../Icons/Moonset";
 import { Moon } from "../Icons/Moon";
 import { Sun } from "../Icons/Sun";
+import "./Hourly.scss";
 
 interface Props {
   data: OneCallAPIProps | undefined;
@@ -240,7 +235,7 @@ export const Hourly = ({ data }: Props) => {
   };
 
   return (
-    <>
+    <div className="box box--hourly">
       <div className="rises-sets-wrap">
         <div className="rises-sets">{risesAndSets()}</div>
       </div>
@@ -343,6 +338,6 @@ export const Hourly = ({ data }: Props) => {
       </div>
 
       <div className="blocks blocks--small">{windBlocks()}</div>
-    </>
+    </div>
   );
 };

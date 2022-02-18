@@ -1,6 +1,9 @@
 import React from "react";
 import { formatCityName } from "../../utils/utils";
-import { LocationResultsProps, OneCallAPIProps } from "./OpenWeatherMap";
+import {
+  LocationResultsProps,
+  OneCallAPIProps,
+} from "../../utils/OpenWeatherMap";
 import "./Location.scss";
 
 interface Props {
