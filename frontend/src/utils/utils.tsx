@@ -51,28 +51,25 @@ export function rainToolipFormatter(value: string, name: string, props: any) {
 
 export function dtToDate(
   dt: number,
-  format: "day" | "alert" | "time-short" | "time-long"
+  format: "day" | "alert" | "time-short" | "time-long",
+  timezone?: string
 ) {
   const date = new Date(dt * 1000);
-  let options = {};
+  let options: any = {};
+
+  if (timezone !== undefined) {
+    options.timeZone = timezone;
+  }
 
   if (format === "day") {
-    options = {
-      weekday: "short",
-    } as const;
+    options.weekday = "short";
   } else if (format === "alert") {
-    options = {
-      weekday: "long",
-      hour: "numeric",
-    } as const;
+    options.weekday = "long";
+    options.hour = "numeric";
   } else if (format === "time-short") {
-    options = {
-      hour: "numeric",
-    } as const;
+    options.hour = "numeric";
   } else if (format === "time-long") {
-    options = {
-      timeStyle: "short",
-    } as const;
+    options.timeStyle = "short";
   }
 
   const dateTime = new Intl.DateTimeFormat("en-US", options).format(date);

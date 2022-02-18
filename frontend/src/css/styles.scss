@@ -59,7 +59,7 @@ $theme-colors: (
   --box-shadow-neu: -6px -6px 18px rgba(var(--white-rgb), 0.9),
     6px 6px 18px rgba(var(--K300-rgb), 0.3);
 
-  --input-height: 48px;
+  --input-height: 38px;
 }
 
 * {
@@ -123,8 +123,8 @@ button {
 
     svg {
       display: block;
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
 
       path {
         fill: var(--K800);

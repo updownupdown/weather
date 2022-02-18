@@ -29,11 +29,17 @@ interface Props {
 }
 
 export const Daily = ({ data }: Props) => {
-  if (data === undefined || isObjectEmpty(data) || data.daily === undefined) {
+  if (
+    data === undefined ||
+    data.timezone === undefined ||
+    isObjectEmpty(data) ||
+    data.daily === undefined
+  ) {
     return <div>Loading...</div>;
   }
 
   const dailyData = data.daily;
+  const timezone = data.timezone;
 
   const dailyGraphData = [];
 
@@ -41,7 +47,7 @@ export const Daily = ({ data }: Props) => {
     const day = dailyData[i];
 
     dailyGraphData.push({
-      day: dtToDate(day.dt, "day"),
+      day: dtToDate(day.dt, "day", timezone),
       temperature: day.temp.day,
       minMax: [day.temp.min, day.temp.max],
       feels_like: day.feels_like.day,
@@ -55,7 +61,7 @@ export const Daily = ({ data }: Props) => {
     return dailyData.map((day: DailyProps) => {
       return (
         <div key={day.dt} className="block">
-          <span className="title">{dtToDate(day.dt, "day")}</span>
+          <span className="title">{dtToDate(day.dt, "day", timezone)}</span>
           <WeatherIcon code={day.weather[0].icon} />
         </div>
       );

@@ -31,21 +31,18 @@ export const Current = ({ data, city }: Props) => {
 
   const currentData = data.current;
   const todayData = data.daily[0];
-  const locationName = formatCityName(city);
 
   return (
     <div className="current">
       <div className="current__description">
-        <span className="location">{locationName}</span>
-
-        <span className="description">
-          {currentData.weather[0].description}
-        </span>
-
         <WeatherIcon code={currentData.weather[0].icon} />
       </div>
 
       <div className="current__temp">
+        <span className="current__temp__description">
+          {currentData.weather[0].description}
+        </span>
+
         <div className="current__temp__temp">
           {currentData.temp.toFixed()}&deg;C
         </div>
@@ -72,46 +69,6 @@ export const Current = ({ data, city }: Props) => {
             deg={currentData.wind_deg}
             large
           />
-        </div>
-      </div>
-
-      <div className="current__times">
-        <div className="rise-set rise-set--sun">
-          <div>
-            <Sunrise />
-            <span>
-              Sunrise
-              <br />
-              <b>{dtToDate(currentData.sunrise, "time-long")}</b>
-            </span>
-          </div>
-          <div>
-            <Sunset />
-            <span>
-              Sunset
-              <br />
-              <b>{dtToDate(currentData.sunset, "time-long")}</b>
-            </span>
-          </div>
-        </div>
-
-        <div className="rise-set rise-set--moon">
-          <div>
-            <Moonrise />
-            <span>
-              Moonrise
-              <br />
-              <b>{dtToDate(todayData.moonrise, "time-long")}</b>
-            </span>
-          </div>
-          <div>
-            <Moonset />
-            <span>
-              Moonset
-              <br />
-              <b>{dtToDate(todayData.moonset, "time-long")}</b>
-            </span>
-          </div>
         </div>
       </div>
     </div>

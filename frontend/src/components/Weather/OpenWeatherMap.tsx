@@ -7,7 +7,7 @@ export interface CitiesOption {
 
 export interface LocationResultsProps {
   name: string;
-  local_names: any;
+  local_names?: any;
   lat: number;
   lon: number;
   state?: string;

@@ -12,9 +12,19 @@ import {
 } from "./components/Weather/OpenWeatherMap";
 import { formatCityName } from "./utils/utils";
 import AsyncSelect from "react-select/async";
+import { cachedWaterloo } from "./cache/cachedWaterloo";
+import { cachedCities } from "./cache/cachedCities";
+import { cachedLondon } from "./cache/cachedLondon";
+import { Location } from "./components/Weather/Location";
 const debounce = require("lodash/debounce");
 
 function App() {
+  const loadData = true;
+  const useCachedData = false;
+  const cachedData = cachedWaterloo;
+
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   const citiesStorageKey = "citiesList";
   const [fetchedCities, setFetchedCities] = useState<
     LocationResultsProps[] | undefined
@@ -42,19 +52,31 @@ function App() {
 
   // fetch weather data when city is selected
   useEffect(() => {
-    if (selectedCity === undefined) return;
+    if (selectedCity === undefined || useCachedData) return;
 
     fetch(`/weather/lat/${selectedCity.lat}/lon/${selectedCity.lon}`)
       .then((res) => res.json())
       .then((data) => {
         setWeatherData(data);
+        setDataLoaded(true);
       });
   }, [selectedCity]);
 
   // on init
   useEffect(() => {
+    if (!loadData) return;
+    if (useCachedData) {
+      setWeatherData(cachedData);
+      setDataLoaded(true);
+
+      setFetchedCities(cachedCities);
+      setSelectedCity(cachedCities[0]);
+
+      return;
+    }
+
     const savedCities = getSavedCities();
-    console.log(savedCities);
+
     if (savedCities.length !== 0) {
       setFetchedCities(savedCities);
       setSelectedCity(savedCities[0]);
@@ -115,7 +137,7 @@ function App() {
   }
 
   const LeftPanels = useMemo(() => {
-    return (
+    return dataLoaded ? (
       <>
         <div className="box box--current">
           <Current city={selectedCity} data={weatherData} />
@@ -127,11 +149,13 @@ function App() {
           </div>
         )}
       </>
+    ) : (
+      <></>
     );
-  }, [weatherData, selectedCity]);
+  }, [weatherData, selectedCity, dataLoaded]);
 
   const RightPanels = useMemo(() => {
-    return (
+    return dataLoaded ? (
       <>
         <div className="box box--hourly">
           <Hourly data={weatherData} />
@@ -140,30 +164,44 @@ function App() {
           <Daily data={weatherData} />
         </div>
       </>
+    ) : (
+      <></>
     );
-  }, [weatherData, selectedCity]);
+  }, [weatherData, selectedCity, dataLoaded]);
+
+  const LocationTime = useMemo(() => {
+    return dataLoaded ? (
+      <Location city={selectedCity} data={weatherData} />
+    ) : (
+      <></>
+    );
+  }, [weatherData, selectedCity, dataLoaded]);
 
   return (
     <div className="layout-wrap">
       <div className="layout">
         <div className="layout__left">
           <div className="box box--search">
-            <AsyncSelect
-              className="loc-search"
-              defaultOptions={generateDefaultOptions()}
-              onChange={selectCity}
-              loadOptions={loadSuggestions}
-              placeholder="Search city..."
-            />
+            {LocationTime}
 
-            <button
-              className="button button--icon"
-              onClick={() => {
-                geolocateFromBrowser();
-              }}
-            >
-              <Geolocate />
-            </button>
+            <div className="search-fields">
+              <AsyncSelect
+                className="loc-search"
+                defaultOptions={generateDefaultOptions()}
+                onChange={selectCity}
+                loadOptions={loadSuggestions}
+                placeholder="Search city..."
+              />
+
+              <button
+                className="button button--icon"
+                onClick={() => {
+                  geolocateFromBrowser();
+                }}
+              >
+                <Geolocate />
+              </button>
+            </div>
           </div>
 
           {LeftPanels}

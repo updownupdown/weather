@@ -11,11 +11,17 @@ interface Props {
 export const Alerts = ({ data }: Props) => {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
 
-  if (data === undefined || isObjectEmpty(data) || data.alerts === undefined) {
+  if (
+    data === undefined ||
+    data.timezone === undefined ||
+    isObjectEmpty(data) ||
+    data.alerts === undefined
+  ) {
     return <div>Loading...</div>;
   }
 
   const alertData = data.alerts;
+  const timezone = data.timezone;
 
   return (
     <>
@@ -26,7 +32,8 @@ export const Alerts = ({ data }: Props) => {
             <h5 className="alert__sender-timing">
               {alert.sender_name}
               <br />
-              {dtToDate(alert.start, "alert")} to {dtToDate(alert.end, "alert")}
+              {dtToDate(alert.start, "alert", timezone)} to{" "}
+              {dtToDate(alert.end, "alert", timezone)}
             </h5>
             <p
               className={clsx(

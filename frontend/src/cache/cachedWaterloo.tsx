@@ -1,6 +1,6 @@
 import React from "react";
 
-export const cachedData = {
+export const cachedWaterloo = {
   lat: 43.4513,
   lon: -80.4928,
   timezone: "America/Toronto",
