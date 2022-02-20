@@ -100,9 +100,11 @@ export const Hourly = ({ data }: Props) => {
               formatter={temperatureToolipFormatter}
             />
 
-            {/* <CartesianGrid stroke="var(--graph-line)" vertical={false} /> */}
-
-            <ReferenceLine y={0} stroke="var(--zero-line)" strokeWidth={2} />
+            <ReferenceLine
+              y={0}
+              stroke="var(--zero-line)"
+              strokeDasharray="4 4"
+            />
 
             <XAxis hide dataKey="hour" />
 
@@ -128,7 +130,6 @@ export const Hourly = ({ data }: Props) => {
               name="Feels like"
               type="monotone"
               stroke="var(--feels-like)"
-              strokeWidth={2}
               isAnimationActive={false}
               dot={false}
             />
@@ -153,9 +154,8 @@ export const Hourly = ({ data }: Props) => {
               dataKey="humidity"
               name="Humidity"
               type="monotone"
-              stroke="var(--K400)"
-              strokeWidth={1}
-              strokeDasharray="4 4"
+              stroke="var(--humidity)"
+              strokeOpacity={0.4}
               isAnimationActive={false}
               dot={false}
             />
@@ -165,16 +165,16 @@ export const Hourly = ({ data }: Props) => {
               dataKey="pop"
               name="POP"
               type="monotone"
-              fill="#109BF8"
+              fill="var(--pop)"
+              fillOpacity={0.1}
               strokeWidth={0}
-              fillOpacity={0.08}
               isAnimationActive={false}
             >
               <LabelList
                 dataKey="pop"
                 position="top"
                 offset={10}
-                // fill="var(--pop)"
+                fill="var(--pop)"
                 formatter={formatPOPLabel}
               />
             </Area>

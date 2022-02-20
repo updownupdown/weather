@@ -13,6 +13,7 @@ import {
 import {
   dtToDate,
   formatAccumulationLabel,
+  formatPOPLabel,
   formatTempLabel,
   isObjectEmpty,
   rainToolipFormatter,
@@ -103,7 +104,12 @@ export const Daily = ({ data }: Props) => {
 
             <XAxis hide dataKey="day" />
 
-            <ReferenceLine y={0} stroke="var(--zero-line)" strokeWidth={2} />
+            <ReferenceLine
+              y={0}
+              stroke="var(--zero-line)"
+              strokeDasharray="4 4"
+            />
+
             <Line
               dataKey="temperature"
               name="Temperature"
@@ -126,7 +132,6 @@ export const Daily = ({ data }: Props) => {
               name="Feels like"
               type="monotone"
               stroke="var(--feels-like)"
-              strokeWidth={2}
               isAnimationActive={false}
               dot={false}
             />
@@ -136,7 +141,7 @@ export const Daily = ({ data }: Props) => {
               name="Min/max"
               isAnimationActive={false}
               type="monotone"
-              fill="rgba(var(--temperature-rgb), .2)"
+              fill="rgba(var(--temperature-rgb), .12)"
               strokeWidth={0}
             />
           </ComposedChart>
@@ -163,6 +168,7 @@ export const Daily = ({ data }: Props) => {
               name="POP"
               type="monotone"
               fill="var(--pop)"
+              fillOpacity={0.1}
               strokeWidth={0}
               isAnimationActive={false}
             />
