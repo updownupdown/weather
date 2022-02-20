@@ -1,5 +1,4 @@
-import React from "react";
-import { formatCityName } from "../../utils/utils";
+import React, { useEffect, useState } from "react";
 import {
   LocationResultsProps,
   OneCallAPIProps,
@@ -12,23 +11,54 @@ interface Props {
 }
 
 export const Location = ({ data, city }: Props) => {
-  if (city === undefined || data === undefined) {
-    return <div>Loading...</div>;
-  }
+  const locationName = () => {
+    if (city === undefined) {
+      return "Search for a location to get started:";
+    } else {
+      return (
+        <>
+          <span className="city">{city.name}</span>
+          <span className="state-country">
+            {city.state && <span className="state">{city.state}, </span>}
+            <span className="country">{city.country}</span>
+          </span>
+        </>
+      );
+    }
+  };
 
-  const locationName = formatCityName(city);
-  const timezone = data.timezone;
+  const [time, setTime] = useState(new Date());
 
-  let localTime = new Date().toLocaleString("en-US", {
-    timeZone: timezone,
-    hour: "numeric",
-    minute: "numeric",
-  });
+  useEffect(() => {
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const locationTime = () => {
+    const timezone = data === undefined ? undefined : data.timezone;
+
+    const currentTime = time.toLocaleString("en-US", {
+      timeZone: timezone,
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+    const timeParts = currentTime.split(" ");
+
+    return (
+      <>
+        <span className="time-numbers">{timeParts[0]}</span>
+        <span className="time-period">{timeParts[1]}</span>
+      </>
+    );
+  };
 
   return (
     <div className="location__info">
-      <span className="location__info__time">{localTime}</span>
-      <span className="location__info__name">{locationName}</span>
+      <span className="location__info__time">{locationTime()}</span>
+      <span className="location__info__name">{locationName()}</span>
     </div>
   );
 };

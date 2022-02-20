@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Geolocate } from "../Icons/Geolocate";
 import AsyncSelect from "react-select/async";
 import {
-  CitiesOption,
   LocationResultsProps,
   OneCallAPIProps,
 } from "../../utils/OpenWeatherMap";
 import { cachedWaterloo } from "../../cache/cachedWaterloo";
 import { cachedCities } from "../../cache/cachedCities";
 import { cachedLondon } from "../../cache/cachedLondon";
-import { formatCityName } from "../../utils/utils";
 import "./Search.scss";
+import {
+  addCityToStorage,
+  convertCitiesToOptions,
+  generateDefaultOptions,
+  getSavedCities,
+  LastFetchedTime,
+} from "./search-utils";
 const debounce = require("lodash/debounce");
 
 interface Props {
@@ -18,6 +23,7 @@ interface Props {
   setWeatherData: (data: OneCallAPIProps) => void;
   setSelectedCity: (city: LocationResultsProps) => void;
   setDataLoaded: (loaded: boolean) => void;
+  setIsLoading: (loaded: boolean) => void;
 }
 
 export const Search = ({
@@ -25,17 +31,16 @@ export const Search = ({
   setWeatherData,
   setSelectedCity,
   setDataLoaded,
+  setIsLoading,
 }: Props) => {
-  const loadData = true;
   const useCachedData = true;
-
-  const cachedData = cachedWaterloo;
-
-  const citiesStorageKey = "citiesList";
+  const cachedData = cachedLondon;
+  const cachedCityNum = 1;
 
   const [fetchedCities, setFetchedCities] = useState<
     LocationResultsProps[] | undefined
   >(undefined);
+  const [lastFetched, setLastFetched] = useState<Date | undefined>(undefined);
 
   // geolocate - browser lat/lon
   function geolocateFromBrowser() {
@@ -46,8 +51,10 @@ export const Search = ({
       if (lat && lon) {
         fetch(`/reverse-geocode/lat/${lat}/lon/${lon}`)
           .then((res) => res.json())
-          .then((data) => {
-            setFetchedCities(data);
+          .then((cities) => {
+            setSelectedCity(cities[0]);
+            addCityToStorage(cities[0]);
+            setOptionsFromStorage();
           });
       }
     });
@@ -62,101 +69,97 @@ export const Search = ({
         callback(convertCitiesToOptions(cities));
       });
   };
+  const loadSuggestions = debounce(_loadSuggestions, 1000);
 
-  // fetch weather data when city is selected
-  useEffect(() => {
-    if (selectedCity === undefined || useCachedData) return;
-
+  // fetch weather data
+  function fetchWeatherData(selectedCity: LocationResultsProps) {
     fetch(`/weather/lat/${selectedCity.lat}/lon/${selectedCity.lon}`)
       .then((res) => res.json())
       .then((data) => {
         setWeatherData(data);
         setDataLoaded(true);
+        setIsLoading(false);
+        setLastFetched(new Date());
       });
+  }
+
+  // fetch weather data when city is selected
+  useEffect(() => {
+    if (selectedCity === undefined || useCachedData) return;
+
+    // fetch data immediately
+    fetchWeatherData(selectedCity);
+
+    // re-fetch data every fifteen minutes if page has focus
+    const interval = setInterval(() => {
+      if (document.hasFocus()) {
+        fetchWeatherData(selectedCity);
+      }
+    }, 1000 * 60 * 15);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, [selectedCity]);
 
-  const loadSuggestions = debounce(_loadSuggestions, 1000);
-
-  function generateDefaultOptions() {
-    const savedCities = getSavedCities();
-
-    if (savedCities.length > 0) {
-      return convertCitiesToOptions(savedCities);
-    } else {
-      return [];
-    }
-  }
-
-  function convertCitiesToOptions(cities: LocationResultsProps[]) {
-    const citiesOptions: CitiesOption[] = [];
-
-    cities.forEach((city: LocationResultsProps, index: number) => {
-      if (city)
-        citiesOptions.push({ value: index, label: formatCityName(city) });
-    });
-
-    return citiesOptions;
-  }
-
   // select city
-  const selectCity = (e: any) => {
-    if (e !== null && fetchedCities !== undefined) {
-      const newCity = fetchedCities[e.value];
+  function selectCity(e: any) {
+    if (e === null || fetchedCities === undefined) return;
 
-      setSelectedCity(newCity);
+    const city = fetchedCities[e.value];
 
-      let citiesToStore = getSavedCities();
-      citiesToStore.unshift(newCity);
-      citiesToStore = citiesToStore.slice(0, 5);
-
-      localStorage.setItem(citiesStorageKey, JSON.stringify(citiesToStore));
-    }
-  };
-
-  function getSavedCities() {
-    const savedCities = localStorage.getItem(citiesStorageKey);
-    return savedCities ? JSON.parse(savedCities) : [];
+    setSelectedCity(city);
+    addCityToStorage(city);
   }
 
   // on init
   useEffect(() => {
-    if (!loadData) return;
     if (useCachedData) {
       setWeatherData(cachedData);
       setDataLoaded(true);
 
       setFetchedCities(cachedCities);
-      setSelectedCity(cachedCities[0]);
+      setSelectedCity(cachedCities[cachedCityNum]);
 
       return;
     }
 
-    const savedCities = getSavedCities();
-
-    if (savedCities.length !== 0) {
-      setFetchedCities(savedCities);
-      setSelectedCity(savedCities[0]);
-    }
+    setOptionsFromStorage(true);
   }, []);
+
+  function setOptionsFromStorage(loadFirstCity?: true | undefined) {
+    const savedCities = getSavedCities();
+    if (savedCities) {
+      setFetchedCities(savedCities);
+
+      if (loadFirstCity) setSelectedCity(savedCities[0]);
+    }
+  }
 
   return (
     <div className="search">
-      <AsyncSelect
-        className="loc-search"
-        defaultOptions={generateDefaultOptions()}
-        onChange={selectCity}
-        loadOptions={loadSuggestions}
-        placeholder="Search city..."
-      />
+      <div className="search-fields">
+        <AsyncSelect
+          className="loc-search"
+          defaultOptions={generateDefaultOptions()}
+          onChange={selectCity}
+          loadOptions={loadSuggestions}
+          placeholder="Search city..."
+          blurInputOnSelect
+          onBlur={() => setOptionsFromStorage()}
+        />
 
-      <button
-        className="button button--icon"
-        onClick={() => {
-          geolocateFromBrowser();
-        }}
-      >
-        <Geolocate />
-      </button>
+        <button
+          className="button button--icon"
+          onClick={() => {
+            geolocateFromBrowser();
+          }}
+        >
+          <Geolocate />
+        </button>
+      </div>
+
+      <LastFetchedTime lastFetched={lastFetched} />
     </div>
   );
 };

@@ -17,28 +17,6 @@ export const cachedCities = [
     state: "Ontario",
   },
   {
-    name: "Saint-Raymond",
-    lat: 46.889058,
-    lon: -71.835136,
-    country: "CA",
-    state: "Quebec",
-  },
-  {
-    name: "Waterloo",
-    local_names: {
-      de: "Waterloo",
-      fr: "Waterloo",
-      nl: "Waterloo",
-      ru: "Ватерлоо",
-      zh: "滑铁卢",
-      ar: "واترلو",
-    },
-    lat: 43.4652699,
-    lon: -80.5222961,
-    country: "CA",
-    state: "Ontario",
-  },
-  {
     name: "London",
     local_names: {
       gv: "Lunnin",
@@ -145,6 +123,13 @@ export const cachedCities = [
     lon: -0.1276474,
     country: "GB",
     state: "England",
+  },
+  {
+    name: "Saint-Raymond",
+    lat: 46.889058,
+    lon: -71.835136,
+    country: "CA",
+    state: "Quebec",
   },
   {
     name: "Paris",

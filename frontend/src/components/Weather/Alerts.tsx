@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { dtToDate } from "../../utils/utils";
 import { AlertProps } from "../../utils/OpenWeatherMap";
 import { Warning } from "../Icons/Warning";
 import "./Alerts.scss";
+import clsx from "clsx";
 
 interface Props {
   alerts: AlertProps[];
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export const Alerts = ({ alerts, timezone }: Props) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <div className="alerts">
       {alerts.map((alert: AlertProps) => {
@@ -19,13 +22,27 @@ export const Alerts = ({ alerts, timezone }: Props) => {
           timezone
         )} to ${dtToDate(alert.end, "alert", timezone)}`;
 
-        const tooltip =
-          alert.sender_name + "\n" + timing + "\n" + alert.description;
-
         return (
-          <div key={alert.event} className="alert" title={tooltip}>
-            <Warning />
-            <span className="alert__title">{alert.event}</span>
+          <div
+            key={alert.event}
+            className={clsx(
+              "alert",
+              isExpanded ? "alert--expanded" : "alert--not-expanded"
+            )}
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            <div className="alert__header">
+              <span className="alert__header__title">
+                <Warning />
+                {alert.event}
+              </span>
+              <span className="alert__header__sender-timing">
+                {alert.sender_name}
+                <br />
+                {timing}
+              </span>
+            </div>
+            <span className="alert__description">{alert.description}</span>
           </div>
         );
       })}

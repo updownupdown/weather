@@ -5,9 +5,18 @@ import "./Box.scss";
 interface BoxProps {
   children: React.ReactNode;
   layout?: string;
+  allowOverflow?: boolean;
 }
-export const Box = ({ children, layout }: BoxProps) => {
+export const Box = ({ children, layout, allowOverflow }: BoxProps) => {
   return (
-    <div className={clsx("box", layout && "box--" + layout)}>{children}</div>
+    <div
+      className={clsx(
+        "box",
+        layout && "box--" + layout,
+        allowOverflow && "box--allow-overflow"
+      )}
+    >
+      {children}
+    </div>
   );
 };

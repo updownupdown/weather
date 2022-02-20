@@ -28,16 +28,20 @@
 
   &__top {
     display: flex;
+    justify-content: center;
     gap: $boxGap;
     width: 100%;
 
-    @media #{$query-min-md} {
-      &__location {
-        width: 300px;
-      }
-    }
     @media #{$query-max-md} {
       flex-direction: column;
+    }
+
+    &__location {
+      z-index: 2;
+
+      @media #{$query-min-md} {
+        width: 300px;
+      }
     }
 
     &__current {

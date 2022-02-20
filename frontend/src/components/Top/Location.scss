@@ -16,13 +16,34 @@
     flex: 1;
 
     &__name {
-      font-size: 18px;
-      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      text-align: center;
+      line-height: 1.2;
+
+      .city {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .state-country {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--K600);
+      }
     }
 
     &__time {
-      font-size: 38px;
       font-weight: 700;
+
+      .time-numbers {
+        margin-right: 4px;
+        font-size: 42px;
+      }
+      .time-period {
+        font-size: 20px;
+      }
     }
   }
 }

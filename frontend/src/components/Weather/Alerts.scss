@@ -1,35 +1,114 @@
+@import "../../css/media.scss";
+
 .alerts {
   display: flex;
   flex-wrap: wrap;
-
-  // align-items: flex-start;
   gap: 6px;
   width: 100%;
+
+  @media #{$query-max-sm} {
+    padding: 0 20px;
+  }
 }
 
 .alert {
+  position: relative;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  padding: 4px 8px 4px 6px;
+  flex-direction: column;
+  padding: 12px 20px;
   gap: 6px;
 
-  border-radius: 4px;
-  background: var(--status-red);
+  overflow: hidden;
 
-  &__title {
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-    color: var(--white);
+  border-radius: 4px;
+  border: 1px solid rgba(var(--status-red-rgb), 0.4);
+  background: var(--alert-background);
+  box-shadow: 1px 2px 4px rgba(var(--K800-rgb), 0.1);
+
+  @media #{$query-min-sm} {
+    max-height: 90px;
+  }
+  @media #{$query-max-sm} {
+    max-height: 120px;
   }
 
-  svg {
-    width: 20px;
-    height: 20px;
+  &:before {
+    transition: 0.2s ease opacity;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(
+      to bottom,
+      rgba(var(--alert-background-rgb), 0),
+      rgba(var(--alert-background-rgb), 1)
+    );
+  }
 
-    path {
-      fill: var(--white);
+  &--expanded {
+    max-height: unset;
+
+    :before {
+      opacity: 0;
     }
+  }
+
+  &--not-expanded:hover {
+    &:before {
+      opacity: 0.7;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: 8px;
+
+    @media #{$query-min-sm} {
+      align-items: center;
+    }
+    @media #{$query-max-sm} {
+      flex-direction: column;
+    }
+
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: capitalize;
+      color: var(--status-red);
+
+      svg {
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+
+        path {
+          fill: var(--status-red);
+        }
+      }
+    }
+
+    &__sender-timing {
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0.5;
+      line-height: 1.2;
+
+      @media #{$query-min-sm} {
+        margin-left: auto;
+        text-align: right;
+      }
+    }
+  }
+
+  &__description {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
   }
 }

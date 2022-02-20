@@ -10,6 +10,7 @@ import { Box } from "./components/Panels/Box";
 
 function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [selectedCity, setSelectedCity] = useState<
     LocationResultsProps | undefined
@@ -22,15 +23,8 @@ function App() {
       <div className="layout">
         <div className="layout__top">
           <div className="layout__top__location">
-            <Box layout="location">
+            <Box layout="location" allowOverflow>
               <div className="location">
-                {weatherData.alerts && (
-                  <Alerts
-                    alerts={weatherData.alerts}
-                    timezone={weatherData.timezone}
-                  />
-                )}
-
                 <Location city={selectedCity} data={weatherData} />
 
                 <Search
@@ -38,23 +32,39 @@ function App() {
                   setSelectedCity={setSelectedCity}
                   setWeatherData={setWeatherData}
                   setDataLoaded={setDataLoaded}
+                  setIsLoading={setIsLoading}
                 />
               </div>
             </Box>
           </div>
-          <div className="layout__top__current">
-            <Box layout="current">
-              <Current city={selectedCity} data={weatherData} />
-            </Box>
-          </div>
+
+          {dataLoaded && (
+            <div className="layout__top__current">
+              <Box layout="current">
+                <Current city={selectedCity} data={weatherData} />
+              </Box>
+            </div>
+          )}
         </div>
 
-        <Box layout="hourly">
-          <Hourly data={weatherData} />
-        </Box>
-        <Box layout="daily">
-          <Daily data={weatherData} />
-        </Box>
+        {dataLoaded && (
+          <>
+            {weatherData.alerts && (
+              <Alerts
+                alerts={weatherData.alerts}
+                timezone={weatherData.timezone}
+              />
+            )}
+
+            <Box layout="hourly">
+              <Hourly data={weatherData} />
+            </Box>
+
+            <Box layout="daily">
+              <Daily data={weatherData} />
+            </Box>
+          </>
+        )}
       </div>
     </div>
   );
