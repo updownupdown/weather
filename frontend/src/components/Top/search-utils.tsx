@@ -13,10 +13,9 @@ export const LastFetchedTime = ({ lastFetched }: LastFetchedProps) => {
   const fetchTime = lastFetched.toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
-    second: "numeric",
   });
 
-  return <span className="last-fetched">Data last fetched: {fetchTime}</span>;
+  return <span className="last-fetched">Last updated: {fetchTime}</span>;
 };
 
 // convert cities from API to select options
@@ -52,8 +51,6 @@ export function addCityToStorage(newCity: LocationResultsProps) {
 
   // add new city to top of list of cities to store (only store unique, max 5)
   citiesToStore.forEach((city: LocationResultsProps, index: number) => {
-    console.log(city);
-
     if (
       city.name === newCity.name &&
       city.state === newCity.state &&

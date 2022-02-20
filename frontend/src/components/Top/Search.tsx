@@ -73,13 +73,15 @@ export const Search = ({
 
   // fetch weather data
   function fetchWeatherData(selectedCity: LocationResultsProps) {
+    setIsLoading(true);
+
     fetch(`/weather/lat/${selectedCity.lat}/lon/${selectedCity.lon}`)
       .then((res) => res.json())
       .then((data) => {
         setWeatherData(data);
         setDataLoaded(true);
-        setIsLoading(false);
         setLastFetched(new Date());
+        setIsLoading(false);
       });
   }
 
@@ -151,6 +153,28 @@ export const Search = ({
           placeholder="Search city..."
           blurInputOnSelect
           onBlur={() => setOptionsFromStorage()}
+          styles={{
+            placeholder: (provided: any) => ({
+              ...provided,
+              color: "var(--K400)",
+            }),
+            control: (provided: any) => ({
+              ...provided,
+              border: "unset",
+            }),
+            indicatorSeparator: (provided: any) => ({
+              ...provided,
+              display: "none",
+            }),
+            valueContainer: (provided: any) => ({
+              ...provided,
+              paddingRight: "0",
+            }),
+            menu: (provided: any) => ({
+              ...provided,
+              margin: "4px 0 0",
+            }),
+          }}
         />
 
         <button

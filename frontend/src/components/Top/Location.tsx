@@ -57,8 +57,8 @@ export const Location = ({ data, city }: Props) => {
 
   return (
     <div className="location__info">
-      <span className="location__info__time">{locationTime()}</span>
       <span className="location__info__name">{locationName()}</span>
+      <span className="location__info__time">{locationTime()}</span>
     </div>
   );
 };

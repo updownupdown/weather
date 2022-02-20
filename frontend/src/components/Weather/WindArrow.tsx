@@ -1,7 +1,7 @@
-import clsx from "clsx";
 import React from "react";
 import { mpsTokph } from "../../utils/utils";
 import { ArrowWind } from "../Icons/ArrowWind";
+import clsx from "clsx";
 import "./WindArrow.scss";
 
 interface Props {
@@ -40,7 +40,10 @@ export const WindArrow = ({ deg, speed, gust, large }: Props) => {
           transform: `rotate(${deg}deg) scale(${clampedScaleFactor})`,
         }}
       />
-      <span className="wind-arrow__label">{`${speedInKmh.toFixed()} km/h`}</span>
+      <span className="wind-arrow__text">
+        <span className="wind-arrow__text__number">{speedInKmh.toFixed()}</span>
+        <span className="wind-arrow__text__unit">km/h</span>
+      </span>
     </div>
   );
 };

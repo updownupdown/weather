@@ -19,22 +19,35 @@
     }
   }
 
-  &__label {
-    font-size: 14px;
-    font-weight: 600;
+  &__text {
+    font-weight: 700;
     color: var(--wind);
+
+    &__number {
+      margin-right: 4px;
+      font-size: 16px;
+    }
+    &__unit {
+      font-size: 10px;
+    }
   }
 
   &--large {
     width: 100px;
+    gap: 20px;
 
     svg {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
     }
-    .wind-arrow__label {
-      font-size: 20px;
-      font-weight: 700;
+    .wind-arrow__text {
+      &__number {
+        margin-right: 6px;
+        font-size: 24px;
+      }
+      &__unit {
+        font-size: 16px;
+      }
     }
   }
 }
