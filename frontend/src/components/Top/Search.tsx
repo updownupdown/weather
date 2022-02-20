@@ -33,7 +33,7 @@ export const Search = ({
   setDataLoaded,
   setIsLoading,
 }: Props) => {
-  const useCachedData = true;
+  const useCachedData = false;
   const cachedData = cachedLondon;
   const cachedCityNum = 1;
 
@@ -124,12 +124,16 @@ export const Search = ({
       return;
     }
 
-    setOptionsFromStorage(true);
+    if (getSavedCities().length) {
+      setOptionsFromStorage(true);
+    } else {
+      geolocateFromBrowser();
+    }
   }, []);
 
   function setOptionsFromStorage(loadFirstCity?: true | undefined) {
     const savedCities = getSavedCities();
-    if (savedCities) {
+    if (savedCities.length) {
       setFetchedCities(savedCities);
 
       if (loadFirstCity) setSelectedCity(savedCities[0]);
