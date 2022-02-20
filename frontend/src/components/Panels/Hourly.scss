@@ -1,14 +1,13 @@
 .hourly {
   $shift: 100% / 12;
-  $sidePadding: 60px;
 
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   width: 100%;
   min-width: 800px;
-  padding: 80px $sidePadding 30px;
+  padding: 84px var(--box-side-padding) 30px;
 
   .blocks {
     margin-left: -$shift/2;
@@ -19,72 +18,5 @@
   .graph-container {
     position: relative;
     z-index: 2;
-  }
-}
-
-.rises-sets-wrap {
-  overflow: hidden;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 100%;
-  padding: 0 60px;
-}
-.rises-sets {
-  position: absolute;
-  top: 0;
-  left: 60px;
-
-  width: calc(100% - 120px);
-  height: 100%;
-
-  .rise-set {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 28px;
-    padding: 0 8px;
-
-    border-radius: 4px;
-
-    &--night {
-      height: 100%;
-
-      background: rgba(var(--K400-rgb), 0.09);
-    }
-
-    &--moon {
-      top: 0;
-
-      background: rgba(var(--moonrise-rgb), 0.2);
-
-      svg path {
-        fill: var(--moonrise);
-      }
-    }
-
-    &--sun {
-      top: 34px;
-
-      background: rgba(var(--sunrise-rgb), 0.2);
-
-      svg path {
-        fill: var(--sunrise);
-      }
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    span {
-      font-size: 12px;
-      font-weight: 500;
-    }
   }
 }

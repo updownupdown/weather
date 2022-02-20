@@ -7,7 +7,7 @@
   width: 100%;
 
   @media #{$query-max-sm} {
-    padding: 0 20px;
+    padding: 0 12px;
   }
 }
 
@@ -16,99 +16,65 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding: 12px 20px;
-  gap: 6px;
+  padding: 10px 14px 10px 44px;
 
   overflow: hidden;
 
   border-radius: 4px;
-  border: 1px solid rgba(var(--status-red-rgb), 0.4);
-  background: var(--alert-background);
+  // border: 1px solid rgba(var(--status-red-rgb), 0.4);
+  background: var(--status-red);
   box-shadow: 1px 2px 4px rgba(var(--K800-rgb), 0.1);
 
-  @media #{$query-min-sm} {
-    max-height: 90px;
-  }
-  @media #{$query-max-sm} {
-    max-height: 120px;
-  }
-
-  &:before {
-    transition: 0.2s ease opacity;
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30px;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--alert-background-rgb), 0),
-      rgba(var(--alert-background-rgb), 1)
-    );
-  }
+  color: var(--white);
+  line-height: 1.4;
 
   &--expanded {
-    max-height: unset;
-
-    :before {
-      opacity: 0;
+    .alert__description--truncated {
+      display: none;
     }
   }
 
-  &--not-expanded:hover {
-    &:before {
-      opacity: 0.7;
+  &--not-expanded {
+    .alert__description--full,
+    .alert__sender-timing {
+      display: none;
     }
   }
 
-  &__header {
-    display: flex;
-    gap: 8px;
+  svg {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
 
-    @media #{$query-min-sm} {
-      align-items: center;
+    path {
+      fill: var(--white);
     }
-    @media #{$query-max-sm} {
-      flex-direction: column;
-    }
+  }
 
-    &__title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: capitalize;
-      color: var(--status-red);
-
-      svg {
-        flex-shrink: 0;
-        width: 24px;
-        height: 24px;
-
-        path {
-          fill: var(--status-red);
-        }
-      }
-    }
-
-    &__sender-timing {
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.5;
-      line-height: 1.2;
-
-      @media #{$query-min-sm} {
-        margin-left: auto;
-        text-align: right;
-      }
-    }
+  &__title {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: capitalize;
   }
 
   &__description {
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 1.4;
+    font-size: 15px;
+    font-weight: 400;
+
+    &--truncated {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__sender-timing {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.7;
   }
 }

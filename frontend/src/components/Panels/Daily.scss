@@ -1,16 +1,15 @@
 .daily {
   $shift: 100% / 8;
-  $sidePadding: 60px;
 
   display: flex;
   flex-direction: column;
   gap: 30px;
   width: 100%;
   min-width: 800px;
-  padding: 30px $sidePadding;
+  padding: 30px var(--box-side-padding);
 
   .blocks {
-    margin-left: -$shift/2;
-    width: calc(100% + $shift);
+    margin-left: -$shift / 2;
+    width: calc(100% + $shift - 1px);
   }
 }

@@ -21,8 +21,7 @@ import {
 import { HourlyProps, OneCallAPIProps } from "../../utils/OpenWeatherMap";
 import { WindArrow } from "../Weather/WindArrow";
 import { WeatherIcon } from "../Icons/WeatherIcons";
-import { Moon } from "../Icons/Moon";
-import { Sun } from "../Icons/Sun";
+import { RiseSets } from "./RiseSets";
 import "./Hourly.scss";
 
 interface Props {
@@ -34,18 +33,13 @@ export const Hourly = ({ data }: Props) => {
     data === undefined ||
     isObjectEmpty(data) ||
     data.hourly === undefined ||
-    data.daily === undefined ||
-    data.timezone === undefined ||
-    data.timezone_offset === undefined ||
-    data.daily.length === 0
+    data.daily === undefined
   ) {
     return <div>Loading...</div>;
   }
 
-  const hourlyData = data.hourly;
-
   const timezone = data.timezone;
-
+  const hourlyData = data.hourly;
   const hourlyGraphData = [];
 
   for (let i = 0; i < hourlyData.length; i++) {
@@ -60,155 +54,8 @@ export const Hourly = ({ data }: Props) => {
     });
   }
 
-  const risesAndSets = () => {
-    if (data.daily === undefined || data.hourly === undefined) return;
-
-    const firstInterval = data.hourly[0].dt;
-    const lastInterval = data.hourly[data.hourly.length - 1].dt;
-    const intervalDelta = lastInterval - firstInterval;
-
-    function generateSet(start: number, end: number, sun: boolean) {
-      const positionStart = ((start - firstInterval) / intervalDelta) * 100;
-      const positionEnd = ((end - firstInterval) / intervalDelta) * 100;
-      const width = positionEnd - positionStart;
-
-      return (
-        <div
-          className={`rise-set rise-set--${sun ? "sun" : "moon"}`}
-          style={{
-            left: `${positionStart}%`,
-            width: `${width}%`,
-          }}
-        >
-          <span>{dtToDate(start, "time-long", timezone)}</span>
-          {sun ? <Sun /> : <Moon />}
-          <span>{dtToDate(end, "time-long", timezone)}</span>
-        </div>
-      );
-    }
-
-    function generateNighttime(start: number, end: number) {
-      const positionStart = ((start - firstInterval) / intervalDelta) * 100;
-      const positionEnd = ((end - firstInterval) / intervalDelta) * 100;
-      const width = positionEnd - positionStart;
-
-      return (
-        <div
-          className={`rise-set rise-set--night`}
-          style={{
-            left: `${positionStart}%`,
-            width: `${width}%`,
-          }}
-        />
-      );
-    }
-
-    const moonCycles = () => {
-      if (data.daily === undefined) return;
-
-      let cycles: any = [];
-
-      data.daily.forEach((day) => {
-        cycles.push(day.moonrise);
-        cycles.push(day.moonset);
-      });
-
-      cycles = cycles.sort();
-      cycles = cycles.filter((dt: number) => dt !== 0);
-
-      if (data.daily[0].moonset < data.daily[0].moonrise) {
-        cycles.shift();
-      }
-
-      let cyclePairs: any = [];
-
-      for (let i = 0; i < cycles.length / 2; i = i + 2) {
-        cyclePairs.push({
-          start: cycles[i],
-          end: cycles[i + 1],
-        });
-      }
-
-      return cyclePairs.map((pair: any) => {
-        return (
-          <React.Fragment key={pair.start}>
-            {generateSet(pair.start, pair.end, false)}
-          </React.Fragment>
-        );
-      });
-    };
-
-    const nightCycles = () => {
-      if (data.daily === undefined) return;
-
-      let cycles: any = [];
-
-      data.daily.forEach((day) => {
-        cycles.push(day.sunrise);
-        cycles.push(day.sunset);
-      });
-
-      cycles = cycles.sort();
-      cycles = cycles.filter((dt: number) => dt !== 0);
-
-      if (data.daily[0].sunrise < data.daily[0].sunset) {
-        cycles.shift();
-      }
-
-      let cyclePairs: any = [];
-
-      for (let i = 0; i < cycles.length / 2; i = i + 2) {
-        cyclePairs.push({
-          start: cycles[i],
-          end: cycles[i + 1],
-        });
-      }
-
-      return cyclePairs.map((pair: any) => {
-        return (
-          <React.Fragment key={pair.start}>
-            {generateNighttime(pair.start, pair.end)}
-          </React.Fragment>
-        );
-      });
-    };
-
-    return (
-      <>
-        {data.daily.map((day) => {
-          return (
-            <React.Fragment key={day.dt}>
-              {generateSet(day.sunrise, day.sunset, true)}
-            </React.Fragment>
-          );
-        })}
-
-        {moonCycles()}
-        {nightCycles()}
-      </>
-    );
-  };
-
-  // const dayNightIntervals = () => {
-  //   if (data.hourly === undefined || !data.hourly.length) return;
-
-  //   return data.hourly.map((hour) => {
-  //     const description = hour.weather[0].icon;
-  //     const isDay = hour.weather[0].icon.includes("d");
-
-  //     return (
-  //       <div
-  //         key={hour.dt}
-  //         className={`interval interval--desc-${description} interval--time-${
-  //           isDay ? "day" : "night"
-  //         }`}
-  //       />
-  //     );
-  //   });
-  // };
-
   const titleBlocks = () => {
-    return hourlyData.map((hour: HourlyProps, index: number) => {
+    return hourlyData.map((hour: HourlyProps) => {
       return (
         <div key={hour.dt} className="block block--limit-num">
           <span className="title">
@@ -221,7 +68,7 @@ export const Hourly = ({ data }: Props) => {
   };
 
   const windBlocks = () => {
-    return hourlyData.map((hour: HourlyProps, index: number) => {
+    return hourlyData.map((hour: HourlyProps) => {
       return (
         <div key={hour.dt} className="block block--limit-num">
           <WindArrow
@@ -237,12 +84,10 @@ export const Hourly = ({ data }: Props) => {
   return (
     <div className="hourly">
       <div className="rises-sets-wrap">
-        <div className="rises-sets">{risesAndSets()}</div>
+        <div className="rises-sets">
+          <RiseSets data={data} />
+        </div>
       </div>
-
-      {/* <div className="intervals-wrap">
-        <div className="intervals">{dayNightIntervals()}</div>
-      </div> */}
 
       <div className="blocks blocks--small">{titleBlocks()}</div>
 

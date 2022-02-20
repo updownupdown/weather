@@ -21,6 +21,10 @@ function App() {
   return (
     <div className="layout-wrap">
       <div className="layout">
+        {dataLoaded && weatherData.alerts && (
+          <Alerts alerts={weatherData.alerts} timezone={weatherData.timezone} />
+        )}
+
         <div className="layout__top">
           <div className="layout__top__location">
             <Box layout="location" allowOverflow>
@@ -49,13 +53,6 @@ function App() {
 
         {dataLoaded && (
           <>
-            {weatherData.alerts && (
-              <Alerts
-                alerts={weatherData.alerts}
-                timezone={weatherData.timezone}
-              />
-            )}
-
             <Box layout="hourly">
               <Hourly data={weatherData} />
             </Box>

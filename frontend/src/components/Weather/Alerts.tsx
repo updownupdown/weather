@@ -31,18 +31,19 @@ export const Alerts = ({ alerts, timezone }: Props) => {
             )}
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            <div className="alert__header">
-              <span className="alert__header__title">
-                <Warning />
-                {alert.event}
-              </span>
-              <span className="alert__header__sender-timing">
-                {alert.sender_name}
-                <br />
-                {timing}
-              </span>
-            </div>
-            <span className="alert__description">{alert.description}</span>
+            <Warning />
+            <span className="alert__title">{alert.event}</span>
+            <span className="alert__description alert__description--truncated">
+              {alert.description}
+            </span>
+            <span className="alert__description alert__description--full">
+              {alert.description}
+            </span>
+            <span className="alert__sender-timing">
+              {alert.sender_name}
+              <br />
+              {timing}
+            </span>
           </div>
         );
       })}

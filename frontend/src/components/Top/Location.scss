@@ -17,7 +17,7 @@
     &__name {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
 
       line-height: 1.2;
 
@@ -32,14 +32,14 @@
     }
 
     &__time {
-      font-weight: 700;
-
       .time-numbers {
         margin-right: 6px;
         font-size: 34px;
+        font-weight: 700;
       }
       .time-period {
-        font-size: 18px;
+        font-size: 16px;
+        font-weight: 500;
       }
     }
   }
