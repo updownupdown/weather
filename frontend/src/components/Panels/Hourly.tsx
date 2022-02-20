@@ -235,7 +235,7 @@ export const Hourly = ({ data }: Props) => {
   };
 
   return (
-    <div className="box box--hourly">
+    <div className="hourly">
       <div className="rises-sets-wrap">
         <div className="rises-sets">{risesAndSets()}</div>
       </div>

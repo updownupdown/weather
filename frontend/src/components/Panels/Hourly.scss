@@ -1,15 +1,25 @@
-.box.box--hourly {
+.hourly {
+  $shift: 100% / 12;
+  $sidePadding: 60px;
+
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  min-width: 800px;
+  padding: 80px $sidePadding 30px;
+
+  .blocks {
+    margin-left: -$shift/2;
+    width: calc(100% + $shift);
+  }
 
   .blocks,
   .graph-container {
     position: relative;
     z-index: 2;
   }
-}
-
-.box.box--hourly {
-  padding-top: 80px;
 }
 
 .rises-sets-wrap {

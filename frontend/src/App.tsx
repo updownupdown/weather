@@ -6,6 +6,7 @@ import { LocationResultsProps, OneCallAPIProps } from "./utils/OpenWeatherMap";
 import { Location } from "./components/Top/Location";
 import { Search } from "./components/Top/Search";
 import { Alerts } from "./components/Weather/Alerts";
+import { Box } from "./components/Panels/Box";
 
 function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -20,29 +21,40 @@ function App() {
     <div className="layout-wrap">
       <div className="layout">
         <div className="layout__top">
-          <div className="box box--location">
-            {weatherData.alerts && (
-              <Alerts
-                alerts={weatherData.alerts}
-                timezone={weatherData.timezone}
-              />
-            )}
+          <div className="layout__top__location">
+            <Box layout="location">
+              <div className="location">
+                {weatherData.alerts && (
+                  <Alerts
+                    alerts={weatherData.alerts}
+                    timezone={weatherData.timezone}
+                  />
+                )}
 
-            <Location city={selectedCity} data={weatherData} />
+                <Location city={selectedCity} data={weatherData} />
 
-            <Search
-              selectedCity={selectedCity}
-              setSelectedCity={setSelectedCity}
-              setWeatherData={setWeatherData}
-              setDataLoaded={setDataLoaded}
-            />
+                <Search
+                  selectedCity={selectedCity}
+                  setSelectedCity={setSelectedCity}
+                  setWeatherData={setWeatherData}
+                  setDataLoaded={setDataLoaded}
+                />
+              </div>
+            </Box>
           </div>
-
-          <Current city={selectedCity} data={weatherData} />
+          <div className="layout__top__current">
+            <Box layout="current">
+              <Current city={selectedCity} data={weatherData} />
+            </Box>
+          </div>
         </div>
 
-        <Hourly data={weatherData} />
-        <Daily data={weatherData} />
+        <Box layout="hourly">
+          <Hourly data={weatherData} />
+        </Box>
+        <Box layout="daily">
+          <Daily data={weatherData} />
+        </Box>
       </div>
     </div>
   );

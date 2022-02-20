@@ -1,13 +1,22 @@
-// ===== Layout ===== //
+@import "./media.scss";
+
+#root {
+  width: 100%;
+}
 .layout-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1000px;
-  max-width: 100%;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
   min-height: 100vh;
-  padding: 40px;
+
+  @media #{$query-min-md} {
+    padding: 40px;
+  }
 }
+
 .layout {
   $boxGap: 20px;
 
@@ -19,45 +28,21 @@
 
   &__top {
     display: flex;
-    // flex-direction: column;
     gap: $boxGap;
     width: 100%;
-  }
-}
 
-// ===== Box ===== //
-.box {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  gap: 30px;
-  width: 100%;
+    @media #{$query-min-md} {
+      &__location {
+        width: 300px;
+      }
+    }
+    @media #{$query-max-md} {
+      flex-direction: column;
+    }
 
-  border-radius: 8px;
-  background: var(--K100);
-  border: 1px solid rgba(var(--K200-rgb), 0.5);
-  box-shadow: var(--box-shadow-neu);
-  box-shadow: 1px 2px 12px rgba(var(--K700-rgb), 0.08),
-    4px 8px 30px rgba(var(--K700-rgb), 0.08);
-
-  &--top {
-    flex-direction: row;
-    align-items: center;
-    padding: 20px;
-  }
-
-  &--location {
-    display: flex;
-    flex-direction: column;
-    // align-items: center;
-    justify-content: center;
-    gap: 20px;
-    width: 280px;
-    padding: 20px;
-  }
-
-  &--current {
-    flex: 1;
+    &__current {
+      flex: 1;
+    }
   }
 }
 

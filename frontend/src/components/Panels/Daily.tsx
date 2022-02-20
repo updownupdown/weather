@@ -89,7 +89,7 @@ export const Daily = ({ data }: Props) => {
   };
 
   return (
-    <div className="box box--daily">
+    <div className="daily">
       <div className="blocks blocks--title blocks--large">{titleBlocks()}</div>
 
       <div className="graph-container">

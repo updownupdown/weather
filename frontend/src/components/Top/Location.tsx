@@ -26,9 +26,9 @@ export const Location = ({ data, city }: Props) => {
   });
 
   return (
-    <div className="location">
-      <span className="location__time">{localTime}</span>
-      <span className="location__name">{locationName}</span>
+    <div className="location__info">
+      <span className="location__info__time">{localTime}</span>
+      <span className="location__info__name">{locationName}</span>
     </div>
   );
 };

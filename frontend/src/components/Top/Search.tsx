@@ -140,7 +140,7 @@ export const Search = ({
   }, []);
 
   return (
-    <div className="search-fields">
+    <div className="search">
       <AsyncSelect
         className="loc-search"
         defaultOptions={generateDefaultOptions()}
