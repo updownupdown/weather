@@ -7,10 +7,11 @@ import { Location } from "./components/Top/Location";
 import { Search } from "./components/Top/Search";
 import { Alerts } from "./components/Weather/Alerts";
 import { Box } from "./components/Panels/Box";
+import clsx from "clsx";
 
 function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedCity, setSelectedCity] = useState<
     LocationResultsProps | undefined
@@ -19,9 +20,9 @@ function App() {
   const [weatherData, setWeatherData] = useState<OneCallAPIProps>({});
 
   return (
-    <div className="layout-wrap">
+    <div className={clsx("layout-wrap", isLoading && "data-loading")}>
       <div className="layout">
-        {dataLoaded && weatherData.alerts && (
+        {weatherData.alerts && (
           <Alerts alerts={weatherData.alerts} timezone={weatherData.timezone} />
         )}
 
@@ -42,22 +43,22 @@ function App() {
             </Box>
           </div>
 
-          {dataLoaded && (
+          {(dataLoaded || isLoading) && (
             <div className="layout__top__current">
-              <Box layout="current">
+              <Box layout="current" isLoading={isLoading}>
                 <Current city={selectedCity} data={weatherData} />
               </Box>
             </div>
           )}
         </div>
 
-        {dataLoaded && (
+        {(dataLoaded || isLoading) && (
           <>
-            <Box layout="hourly">
+            <Box layout="hourly" isLoading={isLoading}>
               <Hourly data={weatherData} />
             </Box>
 
-            <Box layout="daily">
+            <Box layout="daily" isLoading={isLoading}>
               <Daily data={weatherData} />
             </Box>
           </>

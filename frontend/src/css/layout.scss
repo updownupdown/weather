@@ -36,10 +36,10 @@
     }
 
     &__location {
-      z-index: 2;
+      z-index: 5;
 
       @media #{$query-min-md} {
-        width: 300px;
+        width: 350px;
       }
     }
 
@@ -63,6 +63,8 @@
 }
 
 .blocks {
+  position: relative;
+  z-index: 2;
   display: flex;
   width: 100%;
 

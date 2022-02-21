@@ -24,21 +24,19 @@ $theme-colors: (
   "status-blue": #42a8d5,
   "temperature": #f1593b,
   "feels-like": #f8954e,
-  "snow": #728696,
   "pop": #53757d,
-  "rain": #4cb9f0,
   "humidity": #55a4c1,
-  "wind": #77c5b5,
+  "wind": #55c1ba,
   "zero-line": #ccc,
   "sunrise": #f19c2d,
-  "moon": #405156,
-  "moonlight": #dfe5e7,
+  "moon": #435962,
+  "moonlight": #f7f8f9,
   "moonrise": #87a9cd,
   "alert-background": #fdf6f6,
   "icon-cloud": #535b61,
   "icon-orange": #f19c2d,
   "icon-rain": #4cb9f0,
-  "icon-snow": #a4c3da,
+  "icon-snow": #849ad9,
 );
 
 :root {
@@ -54,14 +52,13 @@ $theme-colors: (
   --font: "Red Hat Display", sans-serif;
 
   --box-shadow-300: 1px 2px 10px rgba(0, 0, 0, 0.08);
-  --box-shadow-600: 1px 2px 10px rgba(0, 0, 0, 0.08),
-    6px 16px 30px rgba(0, 0, 0, 0.06);
-  --box-shadow-neu: -6px -6px 18px rgba(var(--white-rgb), 0.9),
-    6px 6px 18px rgba(var(--K300-rgb), 0.3);
+  --box-shadow-600: 1px 2px 10px rgba(0, 0, 0, 0.06),
+    6px 16px 30px rgba(0, 0, 0, 0.04);
 
   --input-height: 38px;
 
   --box-side-padding: 50px;
+  --box-border-radius: 10px;
 }
 
 * {
@@ -77,18 +74,10 @@ body {
   justify-content: center;
   margin: 0;
 
-  line-height: 1;
-
-  background: var(--K100);
+  background: var(--K150);
 
   color: var(--K800);
-
-  @media #{$query-min-md} {
-    background: var(--K100);
-  }
-  @media #{$query-max-md} {
-    background: var(--K150);
-  }
+  line-height: 1;
 }
 
 body,

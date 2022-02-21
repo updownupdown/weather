@@ -13,3 +13,7 @@
     width: calc(100% + $shift - 1px);
   }
 }
+
+.data-loading .box--daily {
+  min-height: 516px;
+}

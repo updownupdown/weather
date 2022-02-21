@@ -1,5 +1,4 @@
 import React from "react";
-import moon from "./moon.jpg";
 import "./MoonPhase.scss";
 
 const moonPaths = [
@@ -44,10 +43,6 @@ export const MoonPhase = ({ phase, props }: Props) => {
 
   return (
     <div className="moon-phase">
-      <img className="texture" src={moon} alt="moon" />
-
-      <div className="shadow" />
-
       <svg
         width={24}
         height={24}

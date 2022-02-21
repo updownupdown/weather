@@ -8,7 +8,8 @@ interface LastFetchedProps {
   lastFetched: Date | undefined;
 }
 export const LastFetchedTime = ({ lastFetched }: LastFetchedProps) => {
-  if (lastFetched === undefined) return <></>;
+  if (lastFetched === undefined)
+    return <span className="last-fetched">Updating...</span>;
 
   const fetchTime = lastFetched.toLocaleString("en-US", {
     hour: "numeric",

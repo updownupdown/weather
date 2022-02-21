@@ -13,7 +13,7 @@ interface Props {
 export const Location = ({ data, city }: Props) => {
   const locationName = () => {
     if (city === undefined) {
-      return "Search for a location to get started:";
+      return <span className="city">(No location)</span>;
     } else {
       return (
         <>
@@ -47,10 +47,20 @@ export const Location = ({ data, city }: Props) => {
 
     const timeParts = currentTime.split(" ");
 
+    const currentDay = time.toLocaleString("en-US", {
+      timeZone: timezone,
+      weekday: "long",
+      day: "numeric",
+      month: "short",
+    });
+
     return (
       <>
-        <span className="time-numbers">{timeParts[0]}</span>
-        <span className="time-period">{timeParts[1]}</span>
+        <div className="time">
+          <span className="time__numbers">{timeParts[0]}</span>
+          <span className="time__period">{timeParts[1]}</span>
+        </div>
+        <span className="date">{currentDay}</span>
       </>
     );
   };

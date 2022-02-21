@@ -103,7 +103,7 @@ export const Hourly = ({ data }: Props) => {
             <ReferenceLine
               y={0}
               stroke="var(--zero-line)"
-              strokeDasharray="4 4"
+              strokeDasharray="2 2"
             />
 
             <XAxis hide dataKey="hour" />
@@ -121,6 +121,7 @@ export const Hourly = ({ data }: Props) => {
                 dataKey="temperature"
                 position="top"
                 offset={15}
+                fill="var(--K800)"
                 formatter={formatTempLabel}
               />
             </Line>
@@ -156,6 +157,7 @@ export const Hourly = ({ data }: Props) => {
               type="monotone"
               stroke="var(--humidity)"
               strokeOpacity={0.4}
+              strokeDasharray="4 4"
               isAnimationActive={false}
               dot={false}
             />
@@ -167,6 +169,7 @@ export const Hourly = ({ data }: Props) => {
               type="monotone"
               fill="var(--pop)"
               fillOpacity={0.1}
+              stroke="var(--pop)"
               strokeWidth={0}
               isAnimationActive={false}
             >
@@ -182,7 +185,7 @@ export const Hourly = ({ data }: Props) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="blocks blocks--small">{windBlocks()}</div>
+      <div className="blocks blocks--small blocks--wind">{windBlocks()}</div>
     </div>
   );
 };

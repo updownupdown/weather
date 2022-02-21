@@ -6,7 +6,9 @@ export function isObjectEmpty(empty: any) {
 }
 
 export function formatTempLabel(temp: number) {
-  return `${temp.toFixed()}°`;
+  const roundedTemp = temp.toFixed();
+
+  return `${roundedTemp === "-0" ? "0" : roundedTemp}°`;
 }
 
 export function formatPOPLabel(pop: number) {
@@ -41,12 +43,20 @@ export function temperatureToolipFormatter(
 }
 
 export function rainToolipFormatter(value: string, name: string, props: any) {
-  const units =
-    props.dataKey === "snow" || props.dataKey === "rain" ? " mm" : "%";
+  const units = () => {
+    switch (props.dataKey) {
+      case "rain":
+        return " mm";
+      case "snow":
+        return " cm";
+      default:
+        return "%";
+    }
+  };
 
   const formattedValue =
     props.dataKey === "pop" ? props.value * 100 : props.value;
-  return [Math.round(formattedValue) + units, name];
+  return [Math.round(formattedValue) + units(), name];
 }
 
 export function dtToDate(

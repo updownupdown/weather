@@ -50,11 +50,12 @@ export const Daily = ({ data }: Props) => {
     dailyGraphData.push({
       day: dtToDate(day.dt, "day", timezone),
       temperature: day.temp.day,
-      minMax: [day.temp.min, day.temp.max],
+      maxMin: [day.temp.max, day.temp.min],
       feels_like: day.feels_like.day,
       pop: day.pop,
       snow: day.snow ?? 0,
       rain: day.rain ?? 0,
+      humidity: day.humidity,
     });
   }
 
@@ -93,7 +94,7 @@ export const Daily = ({ data }: Props) => {
     <div className="daily">
       <div className="blocks blocks--title blocks--large">{titleBlocks()}</div>
 
-      <div className="graph-container">
+      <div className="graph-container graph-container--daily-temp">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={dailyGraphData} syncId="daily">
             <Tooltip
@@ -107,7 +108,7 @@ export const Daily = ({ data }: Props) => {
             <ReferenceLine
               y={0}
               stroke="var(--zero-line)"
-              strokeDasharray="4 4"
+              strokeDasharray="2 2"
             />
 
             <Line
@@ -123,9 +124,21 @@ export const Daily = ({ data }: Props) => {
                 dataKey="temperature"
                 position="top"
                 offset={15}
+                fill="var(--K800)"
                 formatter={formatTempLabel}
               />
             </Line>
+
+            <Area
+              dataKey="maxMin"
+              name="Max/min"
+              isAnimationActive={false}
+              type="monotone"
+              fill="var(--temperature)"
+              fillOpacity={0.08}
+              stroke="var(--temperature)"
+              strokeWidth={0}
+            />
 
             <Line
               dataKey="feels_like"
@@ -134,15 +147,6 @@ export const Daily = ({ data }: Props) => {
               stroke="var(--feels-like)"
               isAnimationActive={false}
               dot={false}
-            />
-
-            <Area
-              dataKey="minMax"
-              name="Min/max"
-              isAnimationActive={false}
-              type="monotone"
-              fill="rgba(var(--temperature-rgb), .12)"
-              strokeWidth={0}
             />
           </ComposedChart>
         </ResponsiveContainer>
@@ -160,6 +164,7 @@ export const Daily = ({ data }: Props) => {
 
             <YAxis hide yAxisId={0} />
             <YAxis hide yAxisId={1} domain={[0, 1]} />
+            <YAxis hide yAxisId={2} domain={[0, 100]} />
 
             <YAxis hide yAxisId={1} />
             <Area
@@ -169,16 +174,30 @@ export const Daily = ({ data }: Props) => {
               type="monotone"
               fill="var(--pop)"
               fillOpacity={0.1}
+              stroke="var(--pop)"
               strokeWidth={0}
               isAnimationActive={false}
+            />
+
+            <Line
+              yAxisId={2}
+              dataKey="humidity"
+              name="Humidity"
+              type="monotone"
+              stroke="var(--humidity)"
+              strokeOpacity={0.4}
+              strokeDasharray="4 4"
+              isAnimationActive={false}
+              dot={false}
             />
 
             <Area
               type="monotone"
               dataKey="rain"
               name="Rain"
-              fill="var(--rain)"
+              fill="var(--icon-rain)"
               fillOpacity={0.2}
+              stroke="var(--icon-rain)"
               strokeWidth={0}
               isAnimationActive={false}
             >
@@ -186,7 +205,7 @@ export const Daily = ({ data }: Props) => {
                 dataKey="rain"
                 position="top"
                 offset={10}
-                fill="var(--rain)"
+                fill="var(--icon-rain)"
                 formatter={formatAccumulationLabel}
               />
             </Area>
@@ -195,13 +214,14 @@ export const Daily = ({ data }: Props) => {
               type="monotone"
               dataKey="snow"
               name="Snow"
-              fill="var(--snow)"
+              fill="var(--icon-snow)"
               fillOpacity={0.2}
+              stroke="var(--icon-snow)"
               strokeWidth={0}
               isAnimationActive={false}
             >
               <LabelList
-                fill="var(--snow)"
+                fill="var(--icon-snow)"
                 dataKey="snow"
                 position="top"
                 offset={10}
@@ -212,8 +232,8 @@ export const Daily = ({ data }: Props) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="blocks blocks--large">{windBlocks()}</div>
-      <div className="blocks blocks--large">{moonBlocks()}</div>
+      <div className="blocks blocks--large blocks--wind">{windBlocks()}</div>
+      <div className="blocks blocks--large blocks--moon">{moonBlocks()}</div>
     </div>
   );
 };
