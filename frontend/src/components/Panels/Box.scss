@@ -11,9 +11,8 @@
 
   @media #{$query-min-md} {
     border-radius: var(--box-border-radius);
-    box-shadow: 1px 2px 12px rgba(var(--K700-rgb), 0.08),
-      4px 8px 30px rgba(var(--K700-rgb), 0.08);
-    box-shadow: var(--box-shadow-600);
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, 0.06),
+      6px 16px 30px rgba(0, 0, 0, 0.04);
   }
   @media #{$query-max-md} {
     box-shadow: 1px 2px 4px rgba(var(--K700-rgb), 0.08),

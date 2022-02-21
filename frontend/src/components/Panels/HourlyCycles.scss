@@ -30,12 +30,14 @@
     border-radius: 4px;
 
     &--day {
+      z-index: 1;
       height: 100%;
 
       background: var(--K100);
     }
 
     &--moon {
+      z-index: 2;
       top: 0;
 
       background: rgba(var(--moonrise-rgb), 0.2);
@@ -46,6 +48,7 @@
     }
 
     &--sun {
+      z-index: 2;
       top: 34px;
 
       background: rgba(var(--sunrise-rgb), 0.2);
