@@ -54,12 +54,12 @@ export const Current = ({ data, city }: Props) => {
         <div className="current__temp__right">
           <ul>
             <li>
-              <span>Min:</span>
-              <span>{todayData.temp.min.toFixed()}&deg;C</span>
-            </li>
-            <li>
               <span>Max:</span>
               <span>{todayData.temp.max.toFixed()}&deg;C</span>
+            </li>
+            <li>
+              <span>Min:</span>
+              <span>{todayData.temp.min.toFixed()}&deg;C</span>
             </li>
             <li>
               <span>Clouds:</span>

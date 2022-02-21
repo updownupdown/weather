@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Current } from "./components/Top/Current";
 import { Daily } from "./components/Panels/Daily";
 import { Hourly } from "./components/Panels/Hourly";
@@ -18,6 +18,22 @@ function App() {
   >(undefined);
 
   const [weatherData, setWeatherData] = useState<OneCallAPIProps>({});
+
+  useEffect(() => {
+    let pageTitle = "Weather Dashboard";
+
+    if (weatherData !== undefined) {
+      pageTitle =
+        weatherData.current?.temp.toFixed() +
+        "°C (feels " +
+        weatherData.current?.feels_like.toFixed() +
+        "°C) in " +
+        selectedCity?.name +
+        " | Weather Dashboard";
+    }
+
+    document.title = pageTitle;
+  }, [weatherData]);
 
   return (
     <div className={clsx("layout-wrap", isLoading && "data-loading")}>
