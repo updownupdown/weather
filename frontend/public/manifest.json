@@ -1,6 +1,6 @@
 {
-  "short_name": "Weather Visualizer",
-  "name": "Weather Visualizer",
+  "short_name": "Weather Dashboard",
+  "name": "Weather Dashboard",
   "icons": [
     {
       "src": "fav/favicon.ico",

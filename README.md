@@ -1,10 +1,5 @@
-# Weather Visualizer
+# Weather Dashboard
 
-To do
+A weather dashboard that uses the <a href="https://openweathermap.org/" target="_blank">OpenWeather API</a>.
 
-- Add day of week, date below time
-- Add swipe to navigate between main panels: historical, hourly, daily, map, other?, astronomical?, etc.
-- Neumorphism UI
-- Improve favicon
-- Improve background
-- Add maps?
+<a href="https://weather.jamescarmichael.ca/" target="_blank">View demo</a>
