@@ -3,17 +3,33 @@ import { OneCallAPIProps } from "../../utils/OpenWeatherMap";
 import { dtToDate } from "../../utils/utils";
 import { Moon } from "../Icons/Moon";
 import { Sun } from "../Icons/Sun";
-import "./RiseSets.scss";
+import "./HourlyCycles.scss";
 
 interface Props {
   data: OneCallAPIProps;
 }
-export const RiseSets = ({ data }: Props) => {
+export const HourlyCycles = ({ data }: Props) => {
   if (data.daily === undefined || data.hourly === undefined) return <></>;
 
   const firstInterval = data.hourly[0].dt;
   const lastInterval = data.hourly[data.hourly.length - 1].dt;
   const intervalDelta = lastInterval - firstInterval;
+
+  function generateNighttime(start: number, end: number) {
+    const positionStart = ((start - firstInterval) / intervalDelta) * 100;
+    const positionEnd = ((end - firstInterval) / intervalDelta) * 100;
+    const width = positionEnd - positionStart;
+
+    return (
+      <div
+        className={`hourly-cycle hourly-cycle--day`}
+        style={{
+          left: `${positionStart}%`,
+          width: `${width}%`,
+        }}
+      />
+    );
+  }
 
   function generateSet(start: number, end: number, sun: boolean) {
     const positionStart = ((start - firstInterval) / intervalDelta) * 100;
@@ -22,7 +38,7 @@ export const RiseSets = ({ data }: Props) => {
 
     return (
       <div
-        className={`rise-set rise-set--${sun ? "sun" : "moon"}`}
+        className={`hourly-cycle hourly-cycle--${sun ? "sun" : "moon"}`}
         style={{
           left: `${positionStart}%`,
           width: `${width}%`,
@@ -32,22 +48,6 @@ export const RiseSets = ({ data }: Props) => {
         {sun ? <Sun /> : <Moon />}
         <span>{dtToDate(end, "time-long", data.timezone)}</span>
       </div>
-    );
-  }
-
-  function generateNighttime(start: number, end: number) {
-    const positionStart = ((start - firstInterval) / intervalDelta) * 100;
-    const positionEnd = ((end - firstInterval) / intervalDelta) * 100;
-    const width = positionEnd - positionStart;
-
-    return (
-      <div
-        className={`rise-set rise-set--night`}
-        style={{
-          left: `${positionStart}%`,
-          width: `${width}%`,
-        }}
-      />
     );
   }
 
@@ -64,10 +64,7 @@ export const RiseSets = ({ data }: Props) => {
     cycles = cycles.sort();
     cycles = cycles.filter((dt: number) => dt !== 0);
 
-    if (
-      (type === "sun" && data.daily[0].moonset < data.daily[0].moonrise) ||
-      (type === "moon" && data.daily[0].sunset < data.daily[0].sunrise)
-    ) {
+    if (type === "moon" && data.daily[0].moonset < data.daily[0].moonrise) {
       cycles.shift();
     }
 
@@ -84,7 +81,7 @@ export const RiseSets = ({ data }: Props) => {
       return (
         <React.Fragment key={pair.start}>
           {type === "sun"
-            ? generateNighttime(pair.start, pair.end)
+            ? generateSet(pair.start, pair.end, true)
             : generateSet(pair.start, pair.end, false)}
         </React.Fragment>
       );
@@ -92,17 +89,19 @@ export const RiseSets = ({ data }: Props) => {
   };
 
   return (
-    <>
-      {data.daily.map((day) => {
-        return (
-          <React.Fragment key={day.dt}>
-            {generateSet(day.sunrise, day.sunset, true)}
-          </React.Fragment>
-        );
-      })}
+    <div className="hourly-cycles-wrap">
+      <div className="hourly-cycles">
+        {data.daily.map((day) => {
+          return (
+            <React.Fragment key={day.dt}>
+              {generateNighttime(day.sunrise, day.sunset)}
+            </React.Fragment>
+          );
+        })}
 
-      {generateCycle("sun")}
-      {generateCycle("moon")}
-    </>
+        {generateCycle("sun")}
+        {generateCycle("moon")}
+      </div>
+    </div>
   );
 };

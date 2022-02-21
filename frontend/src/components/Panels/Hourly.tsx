@@ -21,7 +21,7 @@ import {
 import { HourlyProps, OneCallAPIProps } from "../../utils/OpenWeatherMap";
 import { WindArrow } from "../Weather/WindArrow";
 import { WeatherIcon } from "../Icons/WeatherIcons";
-import { RiseSets } from "./RiseSets";
+import { HourlyCycles } from "./HourlyCycles";
 import "./Hourly.scss";
 
 interface Props {
@@ -83,11 +83,7 @@ export const Hourly = ({ data }: Props) => {
 
   return (
     <div className="hourly">
-      <div className="rises-sets-wrap">
-        <div className="rises-sets">
-          <RiseSets data={data} />
-        </div>
-      </div>
+      <HourlyCycles data={data} />
 
       <div className="blocks blocks--small">{titleBlocks()}</div>
 

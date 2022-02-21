@@ -1,4 +1,4 @@
-.rises-sets-wrap {
+.hourly-cycles-wrap {
   overflow: hidden;
   position: absolute;
   z-index: 1;
@@ -10,15 +10,16 @@
   padding: 0 var(--box-side-padding);
 }
 
-.rises-sets {
+.hourly-cycles {
   position: absolute;
   top: 0;
   left: var(--box-side-padding);
-
   width: calc(100% - (var(--box-side-padding) * 2));
   height: 100%;
 
-  .rise-set {
+  background: var(--K125);
+
+  .hourly-cycle {
     position: absolute;
     display: flex;
     justify-content: space-between;
@@ -28,10 +29,10 @@
 
     border-radius: 4px;
 
-    &--night {
+    &--day {
       height: 100%;
 
-      background: rgba(var(--K400-rgb), 0.09);
+      background: var(--K100);
     }
 
     &--moon {

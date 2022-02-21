@@ -13,7 +13,6 @@ import {
 import {
   dtToDate,
   formatAccumulationLabel,
-  formatPOPLabel,
   formatTempLabel,
   isObjectEmpty,
   rainToolipFormatter,
