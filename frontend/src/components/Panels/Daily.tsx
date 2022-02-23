@@ -12,7 +12,8 @@ import {
 } from "recharts";
 import {
   dtToDate,
-  formatAccumulationLabel,
+  formatRainLabel,
+  formatSnowLabel,
   formatTempLabel,
   isObjectEmpty,
   rainToolipFormatter,
@@ -205,7 +206,7 @@ export const Daily = ({ data }: Props) => {
                 position="top"
                 offset={10}
                 fill="var(--icon-rain)"
-                formatter={formatAccumulationLabel}
+                formatter={formatRainLabel}
               />
             </Area>
 
@@ -224,7 +225,7 @@ export const Daily = ({ data }: Props) => {
                 dataKey="snow"
                 position="top"
                 offset={10}
-                formatter={formatAccumulationLabel}
+                formatter={formatSnowLabel}
               />
             </Area>
           </ComposedChart>

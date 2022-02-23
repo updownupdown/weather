@@ -17,7 +17,10 @@ export function formatPOPLabel(pop: number) {
   return popPercentage < 1 ? "" : popPercentage.toFixed() + "%";
 }
 
-export function formatAccumulationLabel(accumulation: number) {
+export function formatSnowLabel(accumulation: number) {
+  return accumulation < 1 ? "" : accumulation.toFixed() + " cm";
+}
+export function formatRainLabel(accumulation: number) {
   return accumulation < 1 ? "" : accumulation.toFixed() + " mm";
 }
 
