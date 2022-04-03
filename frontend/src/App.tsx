@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     let pageTitle = "Weather Dashboard";
 
-    if (weatherData !== undefined) {
+    if (weatherData.current !== undefined) {
       pageTitle =
         weatherData.current?.temp.toFixed() +
         "°C (feels " +
